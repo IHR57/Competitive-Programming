@@ -1,3 +1,6 @@
+//Problem ID: CodeForces 300C (Beautiful Numbers)
+//Programmer: IQBAL HOSSAIN     Description: Combinatorics
+//Date: 06/01/19
 #include <bits/stdc++.h>
 #define MAX 1000005
 #define MOD 1000000007
