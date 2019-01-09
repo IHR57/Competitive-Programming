@@ -29,10 +29,10 @@
 #define mp make_pair
 #define PI acos(-1)
 #define pi 3.1415926535897932384
+#define INF 2147483647
 #define MOD 1000000007
 #define MAX 100005
 using namespace std;
-
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -43,10 +43,31 @@ typedef vector<pii> vii;
 typedef priority_queue<int,vector<int>,greater<int> > pq;
 
 const int inf = 1<<28;
+int dirx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+int diry[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+int dx[]= { -1, 1, 0, 0 };
+int dy[]= { 0, 0, -1, 1 };
 
 int main()
 {
-    cout<<"Hello World"<<endl;
-    
+
     return 0;
 }
+
+/*
+
+For Codeforces Contest
+
+//BISMILLAHIR RAHMANIR RAHIM
+#include <bits/stdc++.h>
+#define MAX 100005
+using namespace std;
+
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+
+    return 0;
+}
+
+*/
