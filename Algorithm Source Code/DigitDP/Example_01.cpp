@@ -1,5 +1,6 @@
 //Find number of zeroes in given range
 //Source: http://shakilcompetitiveprogramming.blogspot.com/2015/09/digit-dp.html
+//Problem: LightOJ - 1140 (How Many Zeroes) 
 #include <bits/stdc++.h>
 #define MAX 80
 using namespace std;
@@ -45,8 +46,7 @@ ll solve(int pos, int isSmall, int isStart, int value)
         for(int i = 1; i <= last; i++){
             ret += solve(pos + 1, isSmall | i < digit[pos], 0, (i == 0) + value);
         }
-       // cout<<"I am here with pos: "<<pos + 1<<endl;
-        ret += solve(pos + 1, 1, 1, 0);
+        ret += solve(pos + 1, 1, 1, 0);     //we need this call because leading zero is not allowed
     }
 
     return ret;
