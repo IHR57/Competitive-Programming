@@ -1,7 +1,5 @@
-//Problem ID: LightOJ - 1140 (How Many Zeroes?)
-//Programmer: IQBAL HOSSAIN     Description: Dynamic Programming
-//Date: 14/01/19
-//Notes: I Had to learn digit dp to solve this problem
+//Find number of zeroes in given range
+//Source: http://shakilcompetitiveprogramming.blogspot.com/2015/09/digit-dp.html
 #include <bits/stdc++.h>
 #define MAX 80
 using namespace std;
@@ -13,6 +11,16 @@ int visited[2][2][MAX][MAX];
 int lim, cnt;
 vector<int> digit;
 
+/*
+isSmall - This will tell if the current digits range is restricted or not. If the current digit’s
+        range is not restricted then it will span from 0 to 9 (inclusively) else it will span
+        from 0 to digit[pos] (inclusively).
+
+value - This parameter will store the number of zero in the generated integer from 0 to pos
+
+isStart - This is tell if the current digits is the starting digit or not. If it is starting digit
+        then we cannot take zero at this position
+*/
 ll solve(int pos, int isSmall, int isStart, int value)
 {
     if(pos == lim){
@@ -37,7 +45,7 @@ ll solve(int pos, int isSmall, int isStart, int value)
         for(int i = 1; i <= last; i++){
             ret += solve(pos + 1, isSmall | i < digit[pos], 0, (i == 0) + value);
         }
-        //cout<<"I am here with pos: "<<pos + 1<<endl;
+       // cout<<"I am here with pos: "<<pos + 1<<endl;
         ret += solve(pos + 1, 1, 1, 0);
     }
 
