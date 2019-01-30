@@ -22,9 +22,12 @@
 #define cosi(a) acos(a)/(pi/180)
 #define sini(a) asin(a)/(pi/180)
 #define tani(a) atan(a)/(pi/180)
+#define mem(a, b) (memset(a, b, sizeof(a)))
 #define read (freopen("input.txt", "r", stdin))
 #define write (freopen("output.txt", "w", stdout))
 #define fastIO (ios::sync_with_stdio(0), cin.tie(0), cout.tie(0));
+#define dis(x1, y1, x2, y2) ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2))
+#define debug (printf("PINK FLOYD:)\n"))
 #define pb push_back
 #define mp make_pair
 #define PI acos(-1)
