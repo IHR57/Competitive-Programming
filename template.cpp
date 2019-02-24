@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <climits>
+#include <ctime>
 #include <string>
 #include <stack>
 #include <queue>
@@ -28,6 +29,7 @@
 #define fastIO (ios::sync_with_stdio(0), cin.tie(0), cout.tie(0));
 #define dis(x1, y1, x2, y2) ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2))
 #define debug (printf("PINK FLOYD:)\n"))
+#define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
 #define PI acos(-1)
