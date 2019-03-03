@@ -21,7 +21,7 @@ void build_suffix_array()
         Rank[0][i] = text[i];
         memset(arr[i].tup, 0, sizeof(arr[i].tup));
     }
-    for(step = 1, jump = 1; jump <= n; step++, jump++){
+    for(step = 1, jump = 1; jump <= n; step++, jump <<= 1){
         for(int j = 0; j <= n; j++){
             arr[j].idx = j;
             arr[j].tup[0] = Rank[step-1][j];
