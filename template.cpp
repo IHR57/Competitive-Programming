@@ -51,8 +51,10 @@ typedef priority_queue<int,vector<int>,greater<int> > pq;
 const int inf = 1<<28;
 int dirx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 int diry[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-int dx[]= { -1, 1, 0, 0 };
-int dy[]= { 0, 0, -1, 1 };
+int dx[] = { -1, 1, 0, 0 };
+int dy[] = { 0, 0, -1, 1 };
+int fx[] = { -2, -2, -1, -1,  1,  1,  2,  2 }; 
+int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
