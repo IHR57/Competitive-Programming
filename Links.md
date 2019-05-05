@@ -11,3 +11,7 @@ MATHEMATICS
 Chinese Remainder Theorem: https://www.youtube.com/watch?v=ru7mWZJlRQg
 
 Discrete Logarithm: https://youtu.be/007MVsELvQw
+
+DYNAMIC PROGRAMMING
+
+DP on Tree: https://threads-iiith.quora.com/Dynamic-Programming-on-Trees-Tutorial

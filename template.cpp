@@ -46,14 +46,14 @@ typedef vector<int> vi;
 typedef vector<string> vs;
 typedef pair<int, int> pii;
 typedef vector<pii> vii;
-typedef priority_queue<int,vector<int>,greater<int> > pq;
+typedef priority_queue<int,vector<int>,greater<int> > PQ;
 
 const int inf = 1<<28;
 int dirx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 int diry[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 int dx[] = { -1, 1, 0, 0 };
 int dy[] = { 0, 0, -1, 1 };
-int fx[] = { -2, -2, -1, -1,  1,  1,  2,  2 }; 
+int fx[] = { -2, -2, -1, -1,  1,  1,  2,  2 };
 int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
