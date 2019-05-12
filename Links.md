@@ -6,6 +6,8 @@ Staircase NIM: https://codeforces.com/blog/entry/44651
 
 Green Hackenbush: http://math450games.blogspot.com/2017/02/green-hackenbush.html
 
+Grundy Numbers: https://www.youtube.com/playlist?list=PLMCXHnjXnTnuolrTKzZkTMGmQNEP3NaBa
+
 MATHEMATICS
 
 Chinese Remainder Theorem: https://www.youtube.com/watch?v=ru7mWZJlRQg
