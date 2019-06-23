@@ -32,14 +32,14 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fi first
+#define se second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
 #define EPS 1e-8
 #define MOD 1000000007
-#define MAX 100005
+#define MAX 200005
 using namespace std;
 
 typedef long long ll;
@@ -62,9 +62,87 @@ int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+vii v;
+
+int solve(vii vp)
+{
+    int cnt = 0, idx = -1;
+    int a = vp[0].fi, b = vp[1].fi;
+    int d = (b - a);
+
+    int k = 2;
+    for(int i = 2; i < vp.size(); i++){
+        int temp = a + k * d;
+        //cout<<temp<<endl;
+        if(temp != vp[i].fi){
+            cnt++;
+            idx = vp[i].se;
+        }
+        else{
+            k++;
+        }
+    }
+    if(cnt == 1){
+        return idx;
+    }
+    else if(cnt == 0){
+        return vp[0].se;
+    }
+
+    a = vp[0].fi, b  = vp[2].fi;
+    d = b - a;
+    cnt = 0;
+    for(int i = 3; i < vp.size(); i++){
+        int temp = a + (i - 1) * d;
+        if(temp != vp[i].fi){
+            cnt++;
+        }
+    }
+    if(cnt == 0){
+        return vp[1].se;
+    }
+    a = vp[1].fi, b = vp[2].fi;
+    d = b - a;
+    cnt = 0;
+    for(int i = 3; i < vp.size(); i++){
+        int temp = a + (i - 1) * d;
+        if(temp != vp[i].fi){
+            cnt++;
+        }
+    }
+    if(cnt == 0){
+        return vp[0].se;
+    }
+    return -1;
+}
+
 int main()
 {
-	fastIO;
-	
+    fastIO;
+    int n, val;
+
+    cin>>n;
+
+    for(int i = 1; i <= n; i++){
+        cin>>val;
+        v.pb(mp(val, i));
+    }
+
+    if(n <= 3){
+        cout<<1<<endl;
+        return 0;
+    }
+
+    sort(v.begin(), v.end());
+    int idx = solve(v);
+    if(idx != -1){
+        cout<<idx<<endl;
+        return 0;
+    }
+    reverse(v.begin(), v.end());
+    idx = solve(v);
+    cout<<idx<<endl;
+
     return 0;
 }
+

@@ -32,14 +32,14 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fi first
+#define se second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
 #define EPS 1e-8
 #define MOD 1000000007
-#define MAX 100005
+#define MAX 200005
 using namespace std;
 
 typedef long long ll;
@@ -62,9 +62,59 @@ int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int freq[105], arr[MAX];
+set<int> s;
+
 int main()
 {
-	fastIO;
-	
+    fastIO;
+    int n, M;
+
+    cin>>n>>M;
+
+    for(int i = 0; i < n; i++){
+        cin>>arr[i];
+    }
+
+    cout<<0<<" ";
+    freq[arr[0]]++;
+    int cs = arr[0], sum;
+
+    vi v;
+    for(int i = 1; i < n; i++){
+        sum = cs;
+        int cnt = 0;
+        if(sum + arr[i] > M){
+            int t = (sum + arr[i]) - M;
+            int cnt = 0;
+            for(int j = 100; j >= 1; j--){
+                if(freq[j]){
+                    if(freq[j] * j <= t){
+                        sum -= freq[j] * j;
+                        cnt += freq[j];
+                        t -= freq[j] * j;
+                    }
+                    else{
+                        int need = (t % j == 0) ? (t / j) : (t / j) + 1;
+                        sum -= need * j;
+                        cnt += need;
+                    }
+                }
+                if(sum + arr[i] <= M){
+                    cout<<cnt<<" ";
+                    break;
+                }
+            }
+        }
+        else{
+            cout<<"0"<<" ";
+        }
+        cs += arr[i];
+        freq[arr[i]]++;
+    }
+
+    cout<<endl;
+
     return 0;
 }
+

@@ -17,3 +17,7 @@ Discrete Logarithm: https://youtu.be/007MVsELvQw
 DYNAMIC PROGRAMMING
 
 DP on Tree: https://threads-iiith.quora.com/Dynamic-Programming-on-Trees-Tutorial
+
+DATA STRUCTURES
+
+MO's Algorithm: https://www.hackerearth.com/practice/notes/mos-algorithm/

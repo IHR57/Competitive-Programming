@@ -32,8 +32,6 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
@@ -46,9 +44,8 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<string> vs;
-typedef pair<int, int> ii;
-typedef pair<int, ii> pii;
-typedef vector<ii> vii;
+typedef pair<int, int> pii;
+typedef vector<pii> vii;
 typedef priority_queue<int,vector<int>,greater<int> > PQ;
 
 const int inf = 1<<28;
@@ -64,7 +61,23 @@ bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 int main()
 {
-	fastIO;
+	// #ifndef ONLINE_JUDGE
+	// 	read; write;
+	// #endif
+
+	int n;
+	cin>>n;
+
+	int req = (n / 2) + 1;
+
+	cout<<req<<endl;
+
+	for(int i = 1; i <= req; i++){
+		cout<<1<<" "<<i<<endl;
+	}
+	for(int i = 2; i <= n - req + 1; i++){
+		cout<<i<<" "<<req<<endl;
+	}
 	
     return 0;
 }

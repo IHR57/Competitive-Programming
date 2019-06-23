@@ -32,23 +32,20 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
 #define EPS 1e-8
 #define MOD 1000000007
-#define MAX 100005
+#define MAX 200005
 using namespace std;
 
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<string> vs;
-typedef pair<int, int> ii;
-typedef pair<int, ii> pii;
-typedef vector<ii> vii;
+typedef pair<int, int> pii;
+typedef vector<pii> vii;
 typedef priority_queue<int,vector<int>,greater<int> > PQ;
 
 const int inf = 1<<28;
@@ -62,9 +59,56 @@ int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int a[MAX], b[MAX];
+int pos[MAX];
+
 int main()
 {
-	fastIO;
+	// #ifndef OJ
+	// 	read; write;
+	// #endif
+	int n;
+
+	cin>>n;
+
+	for(int i = 0; i < n; i++){
+		cin>>a[i];
+	}	
+
+	int Max = -2147483647;
+	for(int i = 0; i < n; i++){
+		cin>>b[i];
+		pos[b[i]] = i;
+	}
 	
+	int cnt = 0;
+	for(int i = 0; i < n; i++){
+		if(b[i] == cnt + 1)
+			cnt++;
+		else
+			cnt = 0;
+	}
+
+	for(int i = 0; i < n - cnt; i++){
+		if(b[i] > 0){
+			Max = max(Max, i - b[i] + 2);
+		}
+	}
+	//cout<<cnt<<endl;
+	//cout<<Max<<" "<<-cnt<<endl;
+	if(Max <= -cnt){
+		//cout<<"DFKJLSD"<<endl;
+		cout<<(n - cnt)<<endl;
+		return 0;
+	}
+
+	for(int i = 0; i < n; i++){
+		if(b[i] > 0){
+			Max = max(Max, n + (i - b[i] + 2));
+		}
+	}
+
+	cout<<Max<<endl;
+
     return 0;
 }

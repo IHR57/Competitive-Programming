@@ -32,8 +32,8 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fi first
+#define se second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
@@ -64,7 +64,25 @@ bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 int main()
 {
-	fastIO;
-	
+    fastIO;
+    int a[3], d;
+
+    cin>>a[0]>>a[1]>>a[2]>>d;
+
+    sort(a, a + 3);
+
+    int ans1 = a[1] - a[0];
+    int res = 0;
+    if(ans1 < d){
+        res += (d - ans1);
+    }
+    int ans2 = a[2] - a[1];
+    if(ans2 < d){
+        res += (d - ans2);
+    }
+
+    cout<<res<<endl;
+
     return 0;
 }
+

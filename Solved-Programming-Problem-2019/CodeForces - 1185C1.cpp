@@ -32,14 +32,14 @@
 #define iosflags (cout<<setiosflags(ios::fixed)<<setprecision(8))
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fi first
+#define se second
 #define PI acos(-1)
 #define pi 3.1415926535897932384
 #define INF 2147483647
 #define EPS 1e-8
 #define MOD 1000000007
-#define MAX 100005
+#define MAX 105
 using namespace std;
 
 typedef long long ll;
@@ -62,9 +62,45 @@ int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+
 int main()
 {
-	fastIO;
-	
+    fastIO;
+    int n, M;
+
+    cin>>n>>M;
+
+    for(int i = 0; i < n; i++){
+        cin>>arr[i];
+    }
+    cout<<0<<" ";
+
+    for(int i = 1; i < n; i++){
+        int sum = 0;
+        priority_queue<int> pq;
+        for(int j = 0; j < i; j++){
+            sum += arr[j];
+            pq.push(arr[j]);
+        }
+        if(sum + arr[i] > M){
+            int cnt = 0;
+            while(!pq.empty()){
+                sum -= pq.top();
+                pq.pop();
+                cnt++;
+                if(sum + arr[i] <= M){
+                    cout<<cnt<<" ";
+                    break;
+                }
+            }
+        }
+        else{
+            cout<<"0"<<" ";
+        }
+    }
+    cout<<endl;
+
     return 0;
 }
+
