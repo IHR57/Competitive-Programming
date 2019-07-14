@@ -21,3 +21,5 @@ DP on Tree: https://threads-iiith.quora.com/Dynamic-Programming-on-Trees-Tutoria
 DATA STRUCTURES
 
 MO's Algorithm: https://www.hackerearth.com/practice/notes/mos-algorithm/
+
+Heavy Light Decomposition: https://www.commonlounge.com/discussion/1d0d31958f9c481c8f95f7eec8f54fb1
