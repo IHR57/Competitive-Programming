@@ -25,6 +25,39 @@ int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
+    int q;
+    ll n, m;
 
+    cin>>q;
+
+    while(q--){
+        cin>>n>>m;
+        if(m > n){
+            cout<<0<<endl;
+            continue;
+        }
+        ll x = m;
+        ll sum = 0;
+        bool flag = false;
+        for(int i = 1; i <= 10; i++){
+            x = (m * i);
+            if(x > n){
+                flag = true;
+                break;
+            }
+            sum += (x % 10);
+        }
+        if(flag){
+            cout<<sum<<endl;
+            continue;
+        }
+        ll rem = (n / (m * 10));
+        sum = (sum * rem);
+        for(ll i = (m * 10 * rem); i <= n; i += m){
+            sum += (i % 10);
+        }
+
+        cout<<sum<<endl;
+    }
     return 0;
 }
