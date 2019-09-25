@@ -1,4 +1,6 @@
-GAME THEORY
+https://www.codechef.com/certification/data-structures-and-algorithms/prepare
+
+# GAME THEORY
 
 Variation of NIM Game: http://www.suhendry.net/blog/?p=1612
 
@@ -9,30 +11,45 @@ Green Hackenbush: http://math450games.blogspot.com/2017/02/green-hackenbush.html
 Grundy Numbers: https://www.youtube.com/playlist?list=PLMCXHnjXnTnuolrTKzZkTMGmQNEP3NaBa
 
 
-MATHEMATICS
+# MATHEMATICS
 
 Chinese Remainder Theorem: https://www.youtube.com/watch?v=ru7mWZJlRQg
 
 Discrete Logarithm: https://youtu.be/007MVsELvQw
 
 
-DYNAMIC PROGRAMMING
+# DYNAMIC PROGRAMMING
 
 DP: https://www.topcoder.com/community/competitive-programming/tutorials/dynamic-programming-from-novice-to-advanced/
 
 DP on Tree: https://threads-iiith.quora.com/Dynamic-Programming-on-Trees-Tutorial
 
+Sum over Subset DP: https://codeforces.com/blog/entry/45223
 
-DATA STRUCTURES
+DP Optimization Techniques: https://codeforces.com/blog/entry/47932
+
+
+# DATA STRUCTURES
 
 MO's Algorithm: https://www.hackerearth.com/practice/notes/mos-algorithm/
 
-Heavy Light Decomposition: https://www.commonlounge.com/discussion/1d0d31958f9c481c8f95f7eec8f54fb1
+MO on path: https://codeforces.com/blog/entry/43230 
 
-STRING
+HLD: https://www.commonlounge.com/discussion/1d0d31958f9c481c8f95f7eec8f54fb1
+
+HLD: https://blog.anudeep2011.com/heavy-light-decomposition/ 
+
+DSU on Tree: https://codeforces.com/blog/entry/44351
+
+# STRING
 
 Hashing: https://www.quora.com/q/threadsiiithyderabad/String-Hashing-for-competitive-programming
 
-	 https://cp-algorithms.com/string/string-hashing.html
+Hashing: https://cp-algorithms.com/string/string-hashing.html
+
+Rolling Hash: http://codeforces.com/blog/entry/60445
+
+Mathematics Behind Rolling Hashes and anti-hash tests: http://codeforces.com/blog/entry/60442
+
 
 
