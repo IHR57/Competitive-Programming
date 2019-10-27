@@ -1,10 +1,8 @@
 //BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #define mem(a, b) (memset(a, b, sizeof(a)))
-#define all(a) a.begin(), a.end()
-#define Unique(a)       sort(all(a)),a.erase(unique(all(a)),a.end())
 #define pb push_back
-#define mp make_pair
+#define mk make_pair
 #define ff first
 #define ss second
 #define PI acos(-1)
@@ -23,10 +21,38 @@ typedef priority_queue<int,vector<int>,greater<int> > PQ;
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX], vis[MAX];
+
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
+    int test, n, r;
+
+    cin>>test;
+
+    while(test--){
+        cin>>n>>r;
+
+        set<int> s;
+        for(int i = 0; i < n; i++){
+            cin>>arr[i];
+            s.insert(arr[i]);
+        }
+
+        int x = 0, cnt = 0;
+        while(!s.empty()){
+            int t = *s.rbegin();
+            t -= x;
+            if(t <= 0)
+                break;
+            cnt++;
+            x += r;
+            s.erase(*s.rbegin());
+        }
+
+        cout<<cnt<<endl;
+    }
 
     return 0;
 }

@@ -17,6 +17,9 @@
 #include <sstream>
 #include <iomanip>
 #include <list>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <functional>
 #define cos(a) cos(a*pi/180)
 #define sin(a) sin(a*pi/180)
 #define tan(a) tan(a*pi/180)
@@ -24,6 +27,8 @@
 #define sini(a) asin(a)/(pi/180)
 #define tani(a) atan(a)/(pi/180)
 #define mem(a, b) (memset(a, b, sizeof(a)))
+#define all(a) a.begin(), a.end()
+#define Unique(a)       sort(all(a)),a.erase(unique(all(a)),a.end())
 #define read (freopen("input.txt", "r", stdin))
 #define write (freopen("output.txt", "w", stdout))
 #define fastIO (ios::sync_with_stdio(0), cin.tie(0), cout.tie(0));
@@ -40,6 +45,7 @@
 #define EPS 1e-8
 #define MOD 1000000007
 #define MAX 100005
+using namespace __gnu_pbds;
 using namespace std;
 
 typedef long long ll;
@@ -51,13 +57,18 @@ typedef pair<int, ii> pii;
 typedef vector<ii> vii;
 typedef priority_queue<int,vector<int>,greater<int> > PQ;
 
+//policy_based_data_structure
+typedef tree<int, null_type, less<int>, rb_tree_tag, 
+             tree_order_statistics_node_update> 
+    new_data_set;
+
 const int inf = 1<<28;
-int dirx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-int diry[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-int dx[] = { -1, 1, 0, 0 };
-int dy[] = { 0, 0, -1, 1 };
-int fx[] = { -2, -2, -1, -1,  1,  1,  2,  2 };
-int fy[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
+int dx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+int dy[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+int fx[] = { -1, 1, 0, 0 };
+int fy[] = { 0, 0, -1, 1 };
+int kx[] = { -2, -2, -1, -1,  1,  1,  2,  2 };
+int ky[] = { -1,  1, -2,  2, -2,  2, -1,  1 };
 
 int Set(int mask, int pos){return mask = mask | (1<<pos);}
 bool check(int mask, int pos){return (bool)(mask & (1<<pos));}

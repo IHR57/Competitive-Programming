@@ -31,7 +31,7 @@ DP Optimization Techniques: https://codeforces.com/blog/entry/47932
 
 # DATA STRUCTURES
 
-MO's Algorithm: https://www.hackerearth.com/practice/notes/mos-algorithm/
+MO's Algorithm: https://blog.anudeep2011.com/mos-algorithm/
 
 MO on path: https://codeforces.com/blog/entry/43230 
 

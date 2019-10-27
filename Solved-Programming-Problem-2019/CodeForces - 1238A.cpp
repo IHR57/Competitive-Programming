@@ -1,10 +1,8 @@
 //BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #define mem(a, b) (memset(a, b, sizeof(a)))
-#define all(a) a.begin(), a.end()
-#define Unique(a)       sort(all(a)),a.erase(unique(all(a)),a.end())
 #define pb push_back
-#define mp make_pair
+#define mk make_pair
 #define ff first
 #define ss second
 #define PI acos(-1)
@@ -27,6 +25,19 @@ int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
+    int test;
+    ll x, y;
 
+    cin>>test;
+
+    while(test--){
+        cin>>x>>y;
+        if(x - y == 1){
+            cout<<"NO"<<endl;
+        }
+        else{
+            cout<<"YES"<<endl;
+        }
+    }
     return 0;
 }
