@@ -37,63 +37,30 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[105], caseno = 1;
+
 void solve()
 {
     int n;
-    string s, t;
 
     cin>>n;
-    cin>>s>>t;
 
-    vector<int> freq(26, 0);
+    REP(i, n)   cin>>arr[i];
 
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
-
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
-            return;
+    int cost = 0;
+    REP(i, n - 1) {
+        int mn = INT_MAX, idx = -1;
+        FOR(j, i, n - 1) {
+            if(arr[j] < mn) {
+                mn = arr[j];
+                idx = j;
+            }
         }
+        reverse(arr + i, arr + idx + 1);
+        cost += (idx - i + 1);
     }
 
-    vector<int> ans;
-
-    REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
-        }
-    }
-
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
-    }
-    cout<<endl;
+    cout<<"Case #"<<caseno++<<": "<<cost<<endl;
 
     return;
 }
@@ -101,10 +68,10 @@ void solve()
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    #ifndef ONLINE_JUDGE
-        freopen("input.txt", "r", stdin);
-        freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    //     freopen("input.txt", "r", stdin);
+    //     freopen("output.txt", "w", stdout);
+    // #endif
 
     int test = 1;
 

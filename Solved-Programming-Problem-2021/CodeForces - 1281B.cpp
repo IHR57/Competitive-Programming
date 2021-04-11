@@ -39,61 +39,56 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string s, t;
+    string str1, str2;
 
-    cin>>n;
-    cin>>s>>t;
+    cin>>str1>>str2;
 
-    vector<int> freq(26, 0);
+    int n = str1.size();
 
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
+    int minChar = 50;
+    vector<ii> ans(n + 1);
+    for(int i = n - 1; i >= 0; i--) {
+        if(str1[i] - 'A' < minChar) {
+            minChar = (str1[i] - 'A');
+            ans[i].ff = minChar;
+            ans[i].ss = i;
+        }
+        else {
+            ans[i].ff = ans[i+1].ff;
+            ans[i].ss = ans[i+1].ss;
+        }
+    }
 
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
+    for(int i = 0; i < n - 1; i++) {
+        int x = str1[i] - 'A';
+        if(ans[i+1].ff < x) {
+            swap(str1[i], str1[ans[i+1].ss]);
+            break;
+        }
+    }
+
+    int m = str2.size();
+
+    for(int i = 0; i < min(n, m); i++) {
+        if(str1[i] > str2[i]) {
+            cout<<"---"<<endl;
+            return;
+        }
+        else if(str1[i] < str2[i]) {
+            cout<<str1<<endl;
             return;
         }
     }
 
-    vector<int> ans;
-
-    REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
-        }
+    if(n == m) {
+        cout<<"---"<<endl;
     }
-
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
+    else if(n > m) {
+        cout<<"---"<<endl;
     }
-    cout<<endl;
+    else {
+        cout<<str1<<endl;
+    }
 
     return;
 }

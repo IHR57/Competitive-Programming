@@ -39,61 +39,26 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string s, t;
+    ll d, k;
 
-    cin>>n;
-    cin>>s>>t;
+    cin>>d>>k;
 
-    vector<int> freq(26, 0);
+    ll p = 0, q = 0;
 
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
-
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
-            return;
+    while(true) {
+        ll x = (p + k) * (p + k) + q * q;
+        ll y = (p * p) + (q + k) * (q + k);
+        if(p <= q && x <= d * d) {
+            p += k;
         }
-    }
-
-    vector<int> ans;
-
-    REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
+        else if(p > q && y <= d * d) {
+            q += k;
         }
+        else
+            break;
     }
 
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
-    }
-    cout<<endl;
+    cout<<((p == q) ? "Utkarsh" : "Ashish")<<endl;
 
     return;
 }

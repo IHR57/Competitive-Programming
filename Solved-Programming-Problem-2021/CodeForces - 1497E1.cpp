@@ -37,63 +37,71 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+#define MAX_PRIME 4000
+
+int arr[MAX], primes[MAX_PRIME], mark[MAX_PRIME], counter = 0;
+bool vis[10000005];
+
+void genSieve() {
+
+    int limit = sqrt(MAX_PRIME + 5);
+    mark[1] = 1;
+    for(int i = 4; i < MAX_PRIME; i += 2)
+        mark[i] = 1;
+
+    primes[counter++] = 2;
+    for(int i = 3; i < MAX_PRIME; i += 2) {
+        if(!mark[i]) {
+            primes[counter++] = i;
+            if(i <= limit) {
+                for(int j = i * i; j < MAX_PRIME; j += i * 2)
+                    mark[j] = 1;
+            }
+        }
+    }
+}
+
+int factorize(int n) {
+    int idx = 0, pf = primes[idx];
+    int ans = 1;
+    while(pf * pf <= n) {
+        if(n % pf == 0) {
+            int cnt = 0;
+            while(n % pf == 0) {
+                n /= pf;
+                cnt++;
+            }
+            if(cnt & 1) {
+                ans *= pf;
+            }
+        }
+        pf = primes[++idx];
+    }
+
+    ans *= n;
+
+    return ans;
+}
+
 void solve()
 {
-    int n;
-    string s, t;
+    int n, k, ans = 0;
 
-    cin>>n;
-    cin>>s>>t;
+    cin>>n>>k;
 
-    vector<int> freq(26, 0);
-
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
-
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
-            return;
-        }
-    }
-
-    vector<int> ans;
+    map<int, int> mp;
 
     REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
+        cin>>arr[i];
+        int k = factorize(arr[i]);
+        if(mp[k]) {
+            mp.clear();
+            ans++;
         }
+        mp[k] = 1;
     }
 
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
-    }
-    cout<<endl;
+    cout<<ans + 1<<endl;
 
     return;
 }
@@ -107,6 +115,7 @@ int main()
     #endif
 
     int test = 1;
+    genSieve();
 
     cin>>test;
 

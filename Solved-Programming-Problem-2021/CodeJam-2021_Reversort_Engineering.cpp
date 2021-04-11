@@ -37,63 +37,57 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int caseno = 1;
+int ans[MAX];
+
+void addToAns(int num, int dir, int& idxL, int& idxR) {
+    if(dir == 1) {
+        ans[idxR] = num;
+        idxR--;
+    }
+    else {
+        ans[idxL] = num;
+        idxL++;
+    }
+}
+
 void solve()
 {
-    int n;
-    string s, t;
+    int n, c;
 
-    cin>>n;
-    cin>>s>>t;
+    cin>>n>>c;
 
-    vector<int> freq(26, 0);
+    int minSum = n - 1, maxSum = ((n * (n + 1)) / 2) - 1;
 
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
+    cout<<"Case #"<<caseno++<<": ";
 
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
-            return;
-        }
+    if(c < minSum || c > maxSum) {
+        cout<<"IMPOSSIBLE"<<endl;
+        return;
     }
 
-    vector<int> ans;
+    int idxL = 0, idxR = n - 1, currD = 0;
+    int currN = n, spotLeft = n - 2;
 
+    int target = c;
     REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
+        spotLeft = max(0, spotLeft);
+        if(currN + spotLeft <= target) {
+            currD = !currD;
+            addToAns(i + 1, currD, idxL, idxR);
+            target -= currN;
         }
+        else {
+            addToAns(i + 1, currD, idxL, idxR);
+            target -= 1;
+        }
+        currN--, spotLeft--;
     }
 
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
+    REP(i, n - 1) {
+        cout<<ans[i]<<" ";
     }
-    cout<<endl;
+    cout<<ans[n-1]<<endl;
 
     return;
 }
@@ -101,10 +95,10 @@ void solve()
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    #ifndef ONLINE_JUDGE
-        freopen("input.txt", "r", stdin);
-        freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    //     freopen("input.txt", "r", stdin);
+    //     freopen("output.txt", "w", stdout);
+    // #endif
 
     int test = 1;
 
