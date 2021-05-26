@@ -15,13 +15,12 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
-#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 998244353
-#define MAX 300005
+#define MOD 1000000007
+#define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,8 +36,50 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+
 void solve()
 {
+    int n, k;
+
+    cin>>n>>k;
+
+    REP(i, n)   cin>>arr[i];
+
+    sort(arr, arr + n);
+
+    bool found = true;
+    int tx;
+    REP(i, n) {
+        if(arr[i] != i) {
+            tx = i;
+            found = false;
+            break;
+        }
+    }
+
+    if(found) {
+        cout<<n + k<<endl;
+        return;
+    }
+
+    int temp = (arr[n-1] + tx) / 2;
+    if((arr[n-1] + tx) & 1)
+        temp++;
+
+    bool flag = false;
+    REP(i, n) {
+        if(arr[i] == temp) {
+            flag = true;
+            break;
+        }
+    }
+
+    int ans = n;
+    if(!flag && k > 0)
+        ans += 1;
+
+    cout<<ans<<endl;
 
     return;
 }

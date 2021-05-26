@@ -15,13 +15,12 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
-#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 998244353
-#define MAX 300005
+#define MOD 1000000007
+#define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,8 +36,45 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int counter[MAX * 10], arr[MAX];
 void solve()
 {
+    int n, x;
+
+    cin>>n>>x;
+
+    set<int> s;
+
+    REP(i, n) {
+        cin>>arr[i];
+        counter[arr[i]]++;
+        s.insert(arr[i]);
+    }
+
+    int cnt = 0;
+
+    while(true) {
+        if(s.empty())
+            break;
+        int tx = x;
+        while(!s.empty() && *s.begin() <= tx) {
+            set<int> :: iterator it = s.lower_bound(tx);
+            if((it != s.end() && *it > tx) || (it == s.end()))
+                it--;
+            tx -= *it;
+            //cout<<*it<<" ";
+            counter[*it]--;
+            if(counter[*it] == 0) {
+                s.erase(*it);
+            }
+        }
+        //cout<<endl;
+        cnt++;
+    }
+
+    REP(i, n)   counter[arr[i]] = 0;
+
+    cout<<cnt<<endl;
 
     return;
 }

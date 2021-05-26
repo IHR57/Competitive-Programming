@@ -37,8 +37,76 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int singleCount[MAX], counter[MAX], taken[MAX];
+vi v[MAX];
+
 void solve()
 {
+    int n, m;
+
+    cin>>n>>m;
+
+    vi ans(m);
+
+    REP(i, n + 1) {
+        singleCount[i] = counter[i] = 0, taken[i] = 0;
+    }
+
+    REP(i, m) {
+        v[i].clear();
+        int k, val;
+        cin>>k;
+        REP(j, k) {
+            cin>>val;
+            v[i].pb(val);
+            counter[val]++;
+            if(k == 1)
+                singleCount[val]++;
+        }
+    }
+
+    sort(counter, counter + n + 1);
+    sort(singleCount, singleCount + n + 1);
+
+    if(counter[n] <= (m + 1) / 2) {
+        cout<<"YES"<<endl;
+        REP(i, m) {
+            cout<<v[i][0]<<" ";
+        }
+        cout<<endl;
+        return;
+    }
+
+    if(singleCount[n] > (m + 1) / 2) {
+        cout<<"NO"<<endl;
+        return;
+    }
+
+    cout<<"YES"<<endl;
+
+    REP(i, m) {
+        if(v[i].size() == 1) {
+            taken[v[i][0]]++;
+            ans[i] = v[i][0];
+        }
+    }
+
+    REP(i, m) {
+        if(v[i].size() != 1) {
+            REP(j, v[i].size()) {
+                if(taken[v[i][j]] < (m + 1) / 2) {
+                    taken[v[i][j]]++;
+                    ans[i] = v[i][j];
+                    break;
+                }
+            }
+        }
+    }
+
+    REP(i, m) {
+        cout<<ans[i]<<" ";
+    }
+    cout<<endl;
 
     return;
 }

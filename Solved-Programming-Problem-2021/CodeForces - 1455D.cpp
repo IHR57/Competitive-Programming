@@ -37,10 +37,53 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[505];
+int dp[505][505][505], n;
+
+int recurs(int pos, int last, int x)
+{
+    if(pos >= n + 1)
+        return 0;
+    int &ret = dp[pos][last][x];
+    if(ret != -1)
+        return ret;
+
+    ret = 1e9;
+    if(arr[pos] >= last) {
+        ret = min(ret, recurs(pos + 1, arr[pos], x));
+        if(arr[pos] > x && x >= last) {
+            ret = min(ret, 1 + recurs(pos + 1, x, arr[pos]));
+        }
+    }
+    else {
+        if(arr[pos] > x && x >= last) {
+            ret = min(ret, 1 + recurs(pos + 1, x, arr[pos]));
+        }
+    }
+
+    return ret;
+}
+
 void solve()
 {
+    int x;
+    cin>>n>>x;
 
-    return;
+    FOR(i, 1, n)   cin>>arr[i];
+
+    FOR(i, 1, n)
+        FOR(j, 0, 500)
+            FOR(k, 0, 500)
+                dp[i][j][k] = -1;
+
+    int ans = recurs(1, 0, x);
+
+    if(ans > n) {
+        cout<<-1<<endl;
+        return;
+    }
+
+    cout<<ans<<endl;
 }
 
 int main()

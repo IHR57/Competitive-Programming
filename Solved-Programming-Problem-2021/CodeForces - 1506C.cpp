@@ -39,6 +39,35 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    string a, b;
+
+    cin>>a>>b;
+
+    int k = min((int) a.size(), (int) b.size());
+    int n = a.size(), m = b.size();
+
+    int ans = n + m;
+    for(int x = k; x >= 1; x--) {
+        for(int i = 0; i <= n - x; i++) {
+            for(int j = 0; j <= m - x; j++) {
+                bool found = true;
+                for(int t = 0; t < x; t++) {
+                    if(a[i+t] != b[j+t]) {
+                        found = false;
+                        break;
+                    }
+                }
+                if(found) {
+                    ans = (ans - 2 * x);
+                    cout<<ans<<endl;
+                    return;
+                }
+            }
+        }
+    }
+
+    cout<<ans<<endl;
+
 
     return;
 }

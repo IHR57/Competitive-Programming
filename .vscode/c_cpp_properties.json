@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++",
-                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/mingw32",
-                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/tr1"
+                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
+                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
+                "C:/Program Files/CodeBlocks/MinGW/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/tr1"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,7 +17,7 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}",
-                    "C:\\Program Files\\CodeBlocks\\MinGW\\lib\\gcc\\mingw32\\5.1.0\\include\\c++"
+                    "C:/Program Files/CodeBlocks/MinGW/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

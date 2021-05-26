@@ -37,8 +37,39 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+
 void solve()
 {
+    int n;
+
+    cin>>n;
+
+    map<int, int> mp;
+
+    REP(i, n) {
+        cin>>arr[i];
+        mp[arr[i]]++;
+    }
+
+    vi v;
+    for(auto m : mp) {
+        v.pb(m.ss);
+    }
+
+    SORT(v);
+
+    int sum = 0, sz = v.size();
+    REP(i, v.size() - 1)    sum += v[i];
+
+    if(sum < v[sz-1]) {
+        cout<<v[sz-1] - sum<<endl;
+        return;
+    }
+    int ans = 0;
+    if(n & 1)   ans += 1;
+
+    cout<<ans<<endl;
 
     return;
 }

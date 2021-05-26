@@ -37,8 +37,35 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int pre[MAX], suff[MAX];
+
 void solve()
 {
+    int n, m;
+    string s, t;
+
+    cin>>n>>m;
+    cin>>s>>t;
+
+    int idx = 0;
+    REP(i, m) {
+        while(s[idx] != t[i]) {
+            idx++;
+        }
+        pre[i] = idx++;
+    }
+    idx = n - 1;
+    ROF(i, m - 1, 0) {
+        while(s[idx] != t[i])   idx--;
+        suff[i] = idx--;
+    }
+
+    int ans = 1;
+    REP(i, m) {
+        ans = max(ans, suff[i+1] - pre[i]);
+    }
+
+    cout<<ans<<endl;
 
     return;
 }
@@ -48,7 +75,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

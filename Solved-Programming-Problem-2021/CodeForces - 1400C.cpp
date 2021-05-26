@@ -39,6 +39,41 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    int x;
+    string s;
+
+    cin>>s>>x;
+
+    int n = s.size();
+    vi placed(n, 1);
+
+    REP(i, n) {
+        if(s[i] == '0') {
+            if(i - x >= 0)
+                placed[i-x] = 0;
+            if(i + x < n)
+                placed[i+x] = 0;
+        }
+    }
+
+    vi tplaced = placed;
+
+    REP(i, n) {
+        if((i - x >= 0 && placed[i-x] == 1) || (i + x < n && placed[i+x] == 1))
+           tplaced[i] = 1;
+        else
+            tplaced[i] = 0;
+    }
+
+    string temp = "", tt;
+    REP(i, n)   temp += (tplaced[i] + 48), tt += (placed[i] + 48);
+
+    if(s == temp) {
+        cout<<tt<<endl;
+        return;
+    }
+
+    cout<<-1<<endl;
 
     return;
 }

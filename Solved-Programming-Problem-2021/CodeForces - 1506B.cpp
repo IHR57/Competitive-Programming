@@ -37,8 +37,67 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int firstIdx = -1, lastIdx = -1;
+int n, k;
+int dp[55][55];
+string str;
+
+
 void solve()
 {
+    cin>>n>>k;
+    cin>>str;
+
+    int i = 0, j = n - 1;
+
+    while(i < n) {
+        if(str[i] == '*') {
+            firstIdx = i;
+            break;
+        }
+        i++;
+    }
+
+    while(j >= 0) {
+        if(str[j] == '*') {
+            lastIdx = j;
+            break;
+        }
+        j--;
+    }
+
+    if(firstIdx == -1) {
+        cout<<0<<endl;
+        return;
+    }
+    if(firstIdx == lastIdx) {
+        cout<<1<<endl;
+        return;
+    }
+
+    int prev = firstIdx;
+    int cnt = 2;
+    for(int i = firstIdx + 1; i <= lastIdx - 1; i++) {
+        if(i - prev <= k) {
+            if(str[i] == '*') {
+                bool found = false;
+                for(int j = i + 1; j <= lastIdx; j++) {
+                    if(str[j] == '*' && j - prev <= k) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    cnt++;
+                    prev = i;
+                    if(lastIdx - prev <= k)
+                        break;
+                }
+            }
+        }
+    }
+
+    cout<<cnt<<endl;
 
     return;
 }

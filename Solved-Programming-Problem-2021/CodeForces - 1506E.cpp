@@ -39,6 +39,56 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    int n;
+    cin>>n;
+
+    vi a(n), b(n), arr(n);
+
+    int prev = -1;
+
+    set<int> s1, s2;
+    REP(i, n)   s1.insert(i + 1), s2.insert(i + 1);
+
+    REP(i, n) {
+        cin>>arr[i];
+        if(arr[i] != prev) {
+            a[i] = arr[i];
+            b[i] = arr[i];
+            s1.erase(arr[i]);
+            s2.erase(arr[i]);
+        }
+        else {
+            a[i] = b[i] = -1;
+        }
+        prev = arr[i];
+    }
+
+
+    REP(i, n) {
+        if(a[i] == -1) {
+            a[i] = *s1.begin();
+            s1.erase(*s1.begin());
+        }
+    }
+
+    prev = -1;
+    REP(i, n) {
+        if(b[i] == -1) {
+            auto it = s2.lower_bound(prev);
+            it--;
+            b[i] = *it;
+            s2.erase(*it);
+        }
+        else {
+            prev = b[i];
+        }
+    }
+
+    REP(i, n)   cout<<a[i]<<" ";
+    cout<<endl;
+
+    REP(i, n)   cout<<b[i]<<" ";
+    cout<<endl;
 
     return;
 }

@@ -15,13 +15,13 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
 #define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 300005
+#define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,8 +37,44 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int mark[MAX];
+
 void solve()
 {
+    int n;
+
+    cin>>n;
+
+    FOR(i, 1, n)    mark[i] = 0;
+
+    int tx = n;
+
+    vi v;
+    vii ans;
+
+    v.pb(n);
+    mark[n] = 1;
+    while(tx > 2) {
+        int tmp = ceil(sqrt(tx));
+        tx = tmp;
+        v.pb(tx);
+        mark[tx] = 1;
+    }
+
+    FOR(i, 2, n) {
+        if(!mark[i]) {
+            ans.pb(mk(i, i + 1));
+        }
+    }
+
+    REP(i, v.size() - 1) {
+        ans.pb(mk(v[i], v[i + 1]));
+        ans.pb(mk(v[i], v[i + 1]));
+    }
+
+    cout<<ans.size()<<endl;
+
+    REP(i, ans.size())  cout<<ans[i].ff<<" "<<ans[i].ss<<endl;
 
     return;
 }

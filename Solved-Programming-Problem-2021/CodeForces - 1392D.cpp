@@ -2,12 +2,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#define mem(a, b) (memset(a, b, sizeof(a)))
-#define pb push_back
-#define mk make_pair
-#define ff first
-#define ss second
-#define PI acos(-1)
+#define mem(a, b)       memset(a, b, sizeof(a))
 #define min3(a,b,c)     min(a,min(b,c))
 #define max3(a,b,c)     max(a,max(b,c))
 #define min4(a,b,c,d)   min(a,min(b,min(c,d)))
@@ -19,9 +14,14 @@
 #define SORT(v)         sort(v.begin(),v.end())
 #define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
+#define pb push_back
+#define mk make_pair
+#define ff first
+#define ss second
+#define PI acos(-1)
 #define INF 2147483647
-#define MOD 998244353
-#define MAX 300005
+#define MOD 1000000007
+#define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -39,13 +39,55 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    int n;
+    string str;
 
-    return;
+    cin>>n;
+    cin>>str;
+
+    vector<char> v;
+
+    REP(i, str.size()) {
+        v.pb(str[i]);
+    }
+    int cnt = 0;
+    while(!v.empty() && v[0] == v.back()) {
+        cnt++;
+        v.pop_back();
+    }
+
+    if(v.empty()) {
+        if(cnt <= 3) {
+            cout<<(cnt / 3)<<endl;
+        }
+        else {
+            cout<<(cnt + 2) / 3<<endl;
+        }
+        return;
+    }
+
+    v.pb('#');
+    int ans = 0;
+    FOR(i, 0, v.size() - 2) {
+        cnt++;
+        if(v[i] != v[i+1]) {
+            ans += (cnt / 3);
+            cnt = 0;
+        }
+    }
+
+    cout<<ans<<endl;
+
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
+    #endif
+
     int test = 1;
 
     cin>>test;
@@ -56,4 +98,3 @@ int main()
 
     return 0;
 }
-

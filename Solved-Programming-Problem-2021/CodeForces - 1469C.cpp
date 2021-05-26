@@ -39,6 +39,35 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    int n, k;
+
+    cin>>n>>k;
+
+    vi h(n);
+
+    REP(i, n) {
+        cin>>h[i];
+    }
+
+    int l = h[0], r = h[0];
+
+    bool flag = 1;
+    FOR(i, 1, n - 1) {
+        int mn = h[i], mx = h[i] + k - 1;
+        mn = max(mn, l - k + 1);
+        mx = min(mx, r + k - 1);
+        l = mn, r = mx;
+        if(l > r) {
+            flag = 0;
+            break;
+        }
+    }
+
+    if(flag && h[n-1] >= l && h[n-1] <= r) {
+        cout<<"YES"<<endl;
+    }
+    else
+        cout<<"NO"<<endl;
 
     return;
 }

@@ -15,13 +15,12 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
-#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 998244353
-#define MAX 300005
+#define MOD 1000000007
+#define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,8 +36,52 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+ll dp[1005][1005][2];
+int n;
+
+ll recurs(int pos, int k, int dir)
+{
+    if(k == 1)
+        return 1;
+    if(dp[pos][k][dir] != -1)
+        return dp[pos][k][dir];
+
+    int ret = 2;
+    if(dir == 1) {
+        if(pos < n) {
+            ret += recurs(pos + 1, k, dir) - 1;
+        }
+        ret %= MOD;
+        if(pos > 1) {
+            ret += recurs(pos - 1, k - 1, !dir) - 1;
+        }
+        ret %= MOD;
+    }
+    else {
+        if(pos > 1) {
+            ret += recurs(pos - 1, k, dir) - 1;
+        }
+        ret %= MOD;
+        if(pos < n) {
+            ret += recurs(pos + 1, k - 1, !dir) - 1;
+        }
+        ret %= MOD;
+    }
+
+    return dp[pos][k][dir] = ret;
+}
+
 void solve()
 {
+    int k;
+
+    cin>>n>>k;
+
+    mem(dp, -1);
+
+    ll ans = recurs(1, k, 1);
+
+    cout<<ans<<endl;
 
     return;
 }

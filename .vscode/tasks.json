@@ -4,11 +4,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo",
+            "label": "g++.exe - Build and debug active file",
             "type": "shell",
-            "command": "g++",
+            "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\g++.exe",
             "args": 
-                ["-g", "main.cpp", "-o", "<output_executable_name>"],
+                ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
             "group": {
                 "kind": "build",
                 "isDefault": true

@@ -39,6 +39,27 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    string str;
+    int n;
+
+    cin>>n;
+    cin>>str;
+
+    vi cs(n + 1,  0);
+    map<int, int> mp;
+
+    mp[0] = 1;
+    FOR(i, 1, str.size()) {
+        cs[i] = cs[i-1] + (str[i-1] - '0');
+        mp[cs[i] - i]++;
+    }
+
+    ll ans = 0;
+    for(auto m: mp) {
+        ans += (1LL * m.ss * (m.ss - 1)) / 2;
+    }
+
+    cout<<ans<<endl;
 
     return;
 }

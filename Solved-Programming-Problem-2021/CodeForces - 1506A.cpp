@@ -39,6 +39,16 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
+    ll n, m, x;
+
+    cin>>n>>m>>x;
+
+    ll i = (x % n == 0) ? x / n : x / n + 1;
+    ll j = (x % n == 0) ? n : x % n;
+
+    ll ans = 1LL * m * (j - 1) + i;
+
+    cout<<ans<<endl;
 
     return;
 }

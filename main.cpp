@@ -2,7 +2,12 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#define mem(a, b)       memset(a, b, sizeof(a))
+#define mem(a, b) (memset(a, b, sizeof(a)))
+#define pb push_back
+#define mk make_pair
+#define ff first
+#define ss second
+#define PI acos(-1)
 #define min3(a,b,c)     min(a,min(b,c))
 #define max3(a,b,c)     max(a,max(b,c))
 #define min4(a,b,c,d)   min(a,min(b,min(c,d)))
@@ -14,14 +19,9 @@
 #define SORT(v)         sort(v.begin(),v.end())
 #define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
-#define pb push_back
-#define mk make_pair
-#define ff first
-#define ss second
-#define PI acos(-1)
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -39,61 +39,32 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string s, t;
+    int k, x;
 
-    cin>>n;
-    cin>>s>>t;
+    vi v;
+    cin>>k;
 
-    vector<int> freq(26, 0);
+    REP(i, 12) {
+        cin>>x;
+        v.pb(x);
+    }
 
-    REP(i, n)   freq[s[i]-'a']++;
-    REP(i, n)   freq[t[i]-'a']++;
+    RSORT(v);
 
-    REP(i, 26) {
-        if(freq[i] & 1) {
-            cout<<"No"<<endl;
+    if(k == 0) {
+        cout<<0<<endl;
+        return;
+    }
+    int ans = 0;
+    REP(i, v.size()) {
+        ans += v[i];
+        if(ans >= k) {
+            cout<<i + 1<<endl;
             return;
         }
     }
 
-    vector<int> ans;
-
-    REP(i, n) {
-        if(s[i] != t[i]) {
-            int idx = -1;
-            FOR(j, i + 1, n - 1) {
-                if(s[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            if(idx != -1) {
-                ans.pb(idx), ans.pb(i);
-                swap(t[i], s[idx]);
-                continue;
-            }
-            FOR(j, i + 1, n - 1) {
-                if(t[j] == s[i]) {
-                    idx = j;
-                    break;
-                }
-            }
-            ans.pb(i+1), ans.pb(idx);
-            swap(s[i+1], t[idx]);
-            ans.pb(i+1), ans.pb(i);
-            swap(s[i+1], t[i]);
-        }
-    }
-
-    cout<<"Yes"<<endl;
-    int x = ans.size();
-
-    cout<<(x / 2)<<endl;
-    REP(i, ans.size()) {
-        cout<<ans[i] + 1<<" ";
-    }
-    cout<<endl;
+    cout<<-1<<endl;
 
     return;
 }
@@ -101,14 +72,13 @@ void solve()
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int test = 1;
+
     #ifndef ONLINE_JUDGE
         freopen("input.txt", "r", stdin);
         freopen("output.txt", "w", stdout);
     #endif
-
-    int test = 1;
-
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();
@@ -116,3 +86,4 @@ int main()
 
     return 0;
 }
+
