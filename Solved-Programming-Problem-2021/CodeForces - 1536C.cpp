@@ -43,26 +43,21 @@ void solve()
 
     cin>>n>>str;
 
-    int cnt = 0;
+    map<pair<int, int>, int> mp;
+    int cntD = 0, cntK = 0;
+    vi ans(n);
+
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cntD += str[i] == 'D';
+        cntK += str[i] == 'K';
+        int g = __gcd(cntD, cntK);
+        mp[mk(cntD / g, cntK / g)]++;
+        ans[i] = mp[mk(cntD / g, cntK / g)];
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
+    REP(i, n)   cout<<ans[i]<<" ";
+    cout<<endl;
+
     return;
 }
 

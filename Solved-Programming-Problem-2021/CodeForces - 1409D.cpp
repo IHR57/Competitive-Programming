@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define EPS 1e-8
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +38,58 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+
+int sod(vector<int> v)
+{
+    int sum = 0;
+    REP(i, v.size())
+        sum += v[i];
+
+    return sum;
+}
+
 void solve()
 {
-    int n;
-    string str;
+    ll n, x;
 
-    cin>>n>>str;
+    cin>>n>>x;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    ll tn = n;
+    vi digits;
+
+    while(tn) {
+        digits.pb(tn % 10);
+        tn /= 10;
+    }
+    digits.pb(0);
+
+    REV(digits);
+
+    if(sod(digits) <= x) {
+        cout<<0<<endl;
+        return;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    ROF(i, digits.size() - 1, 1) {
+        digits[i] = 0;
+        int carry = 1;
+        ROF(j, i - 1, 0) {
+            int tx = (carry + digits[j]);
+            carry = (tx >= 10) ? 1 : 0;
+            digits[j] = tx % 10;
         }
-        else {
-            cout<<"BOB"<<endl;
+        if(sod(digits) <= x) {
+            ll p = 1, ans = 0;
+            ROF(j, digits.size() - 1, 0) {
+                ans += (digits[j] * p);
+                p *= 10;
+            }
+            cout<<(ans - n)<<endl;
+            return;
         }
     }
+
     return;
 }
 

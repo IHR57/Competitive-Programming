@@ -15,12 +15,13 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +37,56 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+vi v[MAX];
+
 void solve()
 {
     int n;
-    string str;
+    cin>>n;
 
-    cin>>n>>str;
-
-    int cnt = 0;
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cin>>arr[i];
+        v[i+1].clear();
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
+    vi lastPos(n + 1, -1), maxD(n + 2, -1);
+
+    REP(i, n) {
+        maxD[arr[i]] = max(maxD[arr[i]], i - lastPos[arr[i]]);
+        lastPos[arr[i]] = i;
+    }
+
+    FOR(i, 1, n) {
+        if(lastPos[i] == -1) {
+            maxD[i] = n;
+        }
         else
-            cout<<"ALICE"<<endl;
+            maxD[i] = max(maxD[i], n - lastPos[i]);
     }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
+
+    FOR(i, 1, n) {
+        if(lastPos[i] != -1)
+            v[maxD[i]].pb(i);
+    }
+
+    FOR(i, 1, n) SORT(v[i]);
+
+    int ans = -1;
+    FOR(i, 1, n) {
+        if(v[i].empty())
+            cout<<ans<<" ";
         else {
-            cout<<"BOB"<<endl;
+            if(ans == -1)
+                ans = v[i][0];
+            else
+                ans = min(ans, v[i][0]);
+            cout<<ans<<" ";
         }
     }
+
+    cout<<endl;
+
     return;
 }
 

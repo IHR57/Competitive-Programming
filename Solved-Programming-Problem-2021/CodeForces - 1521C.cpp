@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +38,64 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int ask(int type, int i, int j, int k)
+{
+    ++i, ++j;
+    int x;
+    cout<<"? "<<type<<" "<<i<<" "<<j<<" "<<k<<endl;
+    cout.flush();
+    cin>>x;
+
+    return x;
+}
+
 void solve()
 {
     int n;
-    string str;
+    cin>>n;
 
-    cin>>n>>str;
+    vi p(n, -1), mark(n + 1, 0);
 
-    int cnt = 0;
+    for(int i = 1; i < n; i += 2) {
+        int idx1 = i - 1, idx2 = i;
+        int x = ask(1, idx1, idx2, n - 1);
+        if(x == n - 1) {
+            x = ask(1, idx2, idx1, n - 1);
+            if(x == n) {
+                p[idx1] = x;
+                p[idx2] = ask(2, idx2, idx1, 1);
+                continue;
+            }
+        }
+
+        int tx = ask(1, idx1, idx2, x - 1);
+        if(tx == x - 1) {
+            p[idx1] = x;
+            p[idx2] = ask(2, idx2, idx1, 1);
+        }
+        else if(tx == x) {
+            p[idx2] = x;
+            p[idx1] = ask(2, idx1, idx2, 1);
+        }
+
+    }
+
+    if(p[n-1] == -1) {
+        REP(i, n - 1)
+            mark[p[i]] = 1;
+        FOR(i, 1, n) {
+            if(!mark[i]) {
+                p[n-1] = i;
+            }
+        }
+    }
+
+    cout<<"! ";
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cout<<p[i]<<" ";
     }
+    cout<<endl;
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
     return;
 }
 

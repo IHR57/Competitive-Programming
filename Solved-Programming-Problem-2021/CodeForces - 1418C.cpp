@@ -15,11 +15,12 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
+#define MOD 998244353
 #define MAX 200005
 using namespace std;
 using namespace __gnu_pbds;
@@ -36,33 +37,39 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int dp[MAX][2][2];
+int arr[MAX], n;
+
+int recur(int pos, int currPlayer, int currMove)
+{
+    if(pos >= n)
+        return 0;
+    
+    if(dp[pos][currPlayer][currMove] != -1)
+        return dp[pos][currPlayer][currMove];
+    
+    int ret = INT_MAX;
+    ret = min(ret, (currPlayer & arr[pos]) + recur(pos + 1, !currPlayer, 0));
+    if(pos + 1 < n) {
+        ret = min(ret, (currPlayer & arr[pos]) + (currPlayer & arr[pos + 1]) + recur(pos + 2, !currPlayer, 1));
+    }
+
+    return dp[pos][currPlayer][currMove] = ret;
+}
+
 void solve()
 {
-    int n;
-    string str;
+    cin>>n;
 
-    cin>>n>>str;
-
-    int cnt = 0;
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cin>>arr[i];
+        dp[i][0][0] = dp[i][0][1] = dp[i][1][0] = dp[i][1][1] = -1;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
+    int ans = recur(0, 1, 0);
+
+    cout<<ans<<endl;
+
     return;
 }
 

@@ -15,7 +15,7 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
@@ -36,33 +36,36 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+ll cnt[1000005], cnt2[1000005];
+
 void solve()
 {
-    int n;
-    string str;
+    int l, r;
 
-    cin>>n>>str;
+    cin>>l>>r;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
-    }
-
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
+    FOR(i, 2, r) {
+        for(int j = i; j <= r; j += i) {
+            if(j < l)
+                continue;
+            cnt[i]++;
         }
     }
+
+    ll ans = 0;
+
+    ROF(i, r, 2) {
+        cnt2[i] = cnt[i] * cnt[i];
+        for(int j = i * 2; j <= r; j += i) {
+            cnt2[i] -= cnt2[j];
+        }
+        ans += cnt2[i];
+        if(i >= l)
+            ans -= 2 * cnt[i] - 1;
+    }
+
+    cout<<ans<<endl;
+
     return;
 }
 
@@ -71,7 +74,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

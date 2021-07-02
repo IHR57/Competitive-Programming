@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define EPS 1e-8
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -43,26 +45,42 @@ void solve()
 
     cin>>n>>str;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
-    }
+    vi pref(n + 1, 0), suff(n + 1, 0);
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    REP(i, n) {
+        if(str[i] == 'L') {
+            if(i - 1 >= 0 && str[i-1] == 'R' && i - 2 >= 0 && str[i-2] == 'L') {
+                pref[i+1] = pref[i-1] + 2;
+            }
+            else if(i - 1 >= 0 && str[i-1] == 'R')
+                pref[i+1] = 2;
+            else
+                pref[i+1] = 1;
         }
         else {
-            cout<<"BOB"<<endl;
+            pref[i+1] = 0;
         }
     }
+
+    ROF(i, n - 1, 0) {
+        if(str[i] == 'R') {
+            if(i + 1 < n && str[i+1] == 'L' && i + 2 < n && str[i+2] == 'R')
+                suff[i] = suff[i+2] + 2;
+            else if(i + 1 < n && str[i+1] == 'L')
+                suff[i] = 2;
+            else
+                suff[i] = 1;
+        }
+        else {
+            suff[i] = 0;
+        }
+    }
+
+    FOR(i, 0, n) {
+        cout<<pref[i] + suff[i] + 1<<" ";
+    }
+    cout<<endl;
+
     return;
 }
 

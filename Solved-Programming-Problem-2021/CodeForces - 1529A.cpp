@@ -15,12 +15,13 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -39,30 +40,20 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
+    vi arr(n), counter(105, 0);
+
+    int mn = 101;
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cin>>arr[i];
+        counter[arr[i]]++;
+        mn = min(mn, arr[i]);
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
+    cout<<(n - counter[mn])<<endl;
+
     return;
 }
 

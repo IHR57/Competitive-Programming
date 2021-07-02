@@ -39,30 +39,23 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    double tax = 1.08 * (double) n;
+
+    int taxInt = tax;
+
+    if(taxInt == 206) {
+        cout<<"so-so"<<endl;
     }
-
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    else if(taxInt < 206) {
+        cout<<"Yay!"<<endl;
     }
     else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        cout<<":("<<endl;
     }
+
     return;
 }
 
@@ -71,7 +64,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

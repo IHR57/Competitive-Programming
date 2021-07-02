@@ -15,12 +15,13 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define MOD 998244353
+#define MAX 5005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +37,31 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+ll currVal[MAX];
+
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    FOR(i, 1, n) {
+        cin>>arr[i];
+        currVal[i] = 0;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    ll ans = 0;
+    FOR(i, 1, n) {
+        ans += max(0LL, arr[i] - currVal[i] - 1);
+        for(int j = i + 2; j <= min(arr[i] + i, n); j++) {
+            currVal[j]++;
         }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        currVal[i+1] += max(0LL, currVal[i] - arr[i] + 1);
     }
+
+    cout<<ans<<endl;
+
     return;
 }
 

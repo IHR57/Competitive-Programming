@@ -39,30 +39,20 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
     int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    int x = n;
+    while(x) {
+        cnt++;
+        x /= 2;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
+    cnt -= 1;
+
+    cout<<(1<<cnt) - 1<<endl;
+
     return;
 }
 

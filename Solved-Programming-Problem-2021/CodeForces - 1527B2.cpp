@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -49,20 +51,42 @@ void solve()
             cnt++;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    bool isPalin = true;
+    int tcnt = 0;
+
+    REP(i, n / 2) {
+        if(str[i] != str[n-i-1])
+            isPalin = false;
+        if((str[i] == '1' || str[n-i-1] == '1') && (str[i] != str[n-i-1]))
+            tcnt++;
     }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+
+    if(isPalin) {
+        if(cnt & 1) {
+            if(cnt == 1)
+                cout<<"BOB"<<endl;
+            else
+                cout<<"ALICE"<<endl;
         }
         else {
-            cout<<"BOB"<<endl;
+            if(cnt == 0) {
+                cout<<"DRAW"<<endl;
+            }
+            else {
+                cout<<"BOB"<<endl;
+            }
         }
+
+        return;
     }
+
+    if(cnt == 2 && tcnt == 1) {
+        cout<<"DRAW"<<endl;
+    }
+    else {
+        cout<<"ALICE"<<endl;
+    }
+
     return;
 }
 

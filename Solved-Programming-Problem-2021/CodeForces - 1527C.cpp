@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -39,31 +41,27 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
+    vi arr(n);
+
+    REP(i, n)   cin>>arr[i];
+
+    vector<ll> dp(n, 0);
+    map<ll, ll> mp;
+
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        if(i != 0)
+            dp[i] = dp[i-1];
+        dp[i] += mp[arr[i]];
+        mp[arr[i]] += (i + 1);
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
-    return;
+    ll ans = 0;
+    REP(i, n)   ans += dp[i];
+
+    cout<<ans<<endl;
 }
 
 int main()

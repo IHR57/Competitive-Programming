@@ -20,7 +20,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +36,30 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int arr[MAX];
+
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
+    map<int, int> mp;
+
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cin>>arr[i];
+        mp[arr[i]]++;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    ll ans = 0;
+    REP(i, n) {
+        int x = n - i;
+        ans += (ll) (x - mp[arr[i]]);
+        mp[arr[i]] = mp[arr[i]] - 1;
     }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
-    }
+
+    cout<<ans<<endl;
+
     return;
 }
 
@@ -71,7 +68,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

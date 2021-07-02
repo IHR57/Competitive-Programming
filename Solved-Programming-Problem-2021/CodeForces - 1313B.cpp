@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define EPS 1e-8
+#define MOD 998244353
+#define MAX 100005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -38,31 +40,23 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string str;
+    int n, x, y;
 
-    cin>>n>>str;
+    cin>>n>>x>>y;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
-    }
+    int mn = INT_MAX, mx = INT_MIN;
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    if(x + y >= (n + 1)) {
+        mx = n;
+        mn = 1 + (x + y - n);
     }
     else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        mn = 1;
+        mx = x + y - 1;
     }
+    mn = min(mn, n);
+    cout<<mn<<" "<<mx<<endl;
+
     return;
 }
 

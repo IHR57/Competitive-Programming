@@ -36,33 +36,57 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+bool vis[100005];
+
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
+    vi v;
+
+    mem(vis, 0);
+
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        int x;
+        cin>>x;
+        v.pb(x);
+        if(x > 0)
+            vis[x] = 1;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    while(true) {
+        vi temp;
+        bool found = false;
+        REP(i, v.size()) {
+            FOR(j, i + 1, v.size() - 1) {
+                int k = abs(v[i] - v[j]);
+                if(!vis[k]) {
+                    temp.pb(k);
+                    vis[k] = 1;
+                    found = true;
+                }
+            }
+        }
+
+        REP(i, temp.size()) v.pb(temp[i]);
+
+        if(!found || v.size() > 300)
+            break;
+    }
+
+    int sz = v.size();
+    if(sz <= 300) {
+        cout<<"YES"<<endl;
+        cout<<sz<<endl;
+        REP(i, v.size())    cout<<v[i]<<" ";
+        cout<<endl;
     }
     else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        cout<<"NO"<<endl;
     }
+
     return;
 }
 

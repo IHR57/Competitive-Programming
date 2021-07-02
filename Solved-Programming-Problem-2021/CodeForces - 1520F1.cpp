@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 5005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -38,31 +40,33 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string str;
+    int n, t, k;
 
-    cin>>n>>str;
+    cin>>n>>t;
+    cin>>k;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
-    }
+    int low = 1, high = n, mid, ans = -1, x;
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    while(low <= high) {
+        mid = (low + high + 1) >> 1;
+        cout<<"? "<<low<<" "<<mid<<endl;
+        cout.flush();
+
+        cin>>x;
+
+        int tx = (mid - low + 1) - x;
+
+        if(tx < k) {
+            k -= tx;
+            low = mid + 1;
         }
-        else {
-            cout<<"BOB"<<endl;
+        else if(tx >= k) {
+            high = mid - 1;
         }
     }
+
+    cout<<"! "<<low<<endl;
+
     return;
 }
 
@@ -71,7 +75,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

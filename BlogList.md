@@ -17,6 +17,8 @@ Chinese Remainder Theorem: https://www.youtube.com/watch?v=ru7mWZJlRQg
 
 Discrete Logarithm: https://youtu.be/007MVsELvQw
 
+Linear Time Sieve: http://e-maxx.ru/algo/prime_sieve_linear
+
 
 # DYNAMIC PROGRAMMING
 

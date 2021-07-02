@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define EPS 1e-8
+#define MOD 998244353
+#define MAX 100005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -38,31 +40,32 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string str;
+    int n, l, r;
 
-    cin>>n>>str;
+    cin>>n>>l>>r;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
-    }
+    vi arr(n);
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    REP(i, n)   cin>>arr[i];
+
+    SORT(arr);
+    REV(arr);
+
+    ll ans = 0;
+    vi v;
+    v.pb(arr[n-1]);
+    ROF(i, n - 2, 0) {
+        if(arr[i] < r) {
+            int x = l - arr[i], y = r - arr[i];
+            int idx1 = lower_bound(v.begin(), v.end(), x) - v.begin();
+            int idx2 = upper_bound(v.begin(), v.end(), y) - v.begin();
+            ans += (ll) (idx2 - idx1);
         }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        v.pb(arr[i]);
     }
+
+    cout<<ans<<endl;
+
     return;
 }
 

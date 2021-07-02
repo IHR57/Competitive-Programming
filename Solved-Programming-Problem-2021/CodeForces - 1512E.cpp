@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -38,31 +40,46 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
-    string str;
+    int n, l, r, s;
 
-    cin>>n>>str;
+    cin>>n>>l>>r>>s;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    int rem = r - l + 1;
+    if(s < (rem * (rem + 1)) / 2) {
+        cout<<-1<<endl;
+        return;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
+    vi ans(n + 1, -1);
+
+    set<int> st;
+    FOR(i, 1, n)    st.insert(i);
+
+    FOR(i, l, r) {
+        int k = r - i;
+        int x = (k * (k + 1)) / 2;
+        int tk = s - x;
+        set<int> :: iterator it = st.upper_bound(tk);
+        it--;
+        ans[i] = *it;
+        s -= *it;
+        st.erase(*it);
     }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+
+    if(s != 0) {
+        cout<<-1<<endl;
+        return;
+    }
+
+    FOR(i, 1, n) {
+        if(i < l || i > r) {
+            ans[i] = *st.begin();
+            st.erase(*st.begin());
         }
-        else {
-            cout<<"BOB"<<endl;
-        }
+        cout<<ans[i]<<" ";
     }
+    cout<<endl;
+
     return;
 }
 

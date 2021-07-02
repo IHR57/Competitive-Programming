@@ -15,12 +15,14 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v) v.begin(),v.end()
+#define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
+#define EPS 1e-8
 #define MOD 1000000007
-#define MAX 200005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -36,33 +38,66 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+ll fact[MAX];
+
+ll powmod(ll a, ll b)
+{
+    ll ans = 1;
+    while(b) {
+        if(b & 1)
+            ans = (ans * a) % MOD;
+        a = (a * a) % MOD;
+        b >>= 1LL;
+    }
+
+    return ans;
+}
+
 void solve()
 {
-    int n;
-    string str;
+    fact[0] = 1;
 
-    cin>>n>>str;
+    int n, x, pos;
+    cin>>n>>x>>pos;
 
-    int cnt = 0;
-    REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+    FOR(i, 1, n) {
+        fact[i] = (i * fact[i-1]) % MOD;
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
+    int low = 0, high = n;
+
+    int mn = 0, mx = 0;
+
+    while(low < high) {
+        int mid = (low + high) / 2;
+        if (pos == mid) {
+            low = mid + 1;
         }
         else {
-            cout<<"BOB"<<endl;
+            if (pos < mid) {
+                mx++;
+                high = mid;
+            } else {
+                mn++;
+                low = mid + 1;
+            }
         }
     }
+
+    //cout<<mx<<" "<<mn<<endl;
+    int bigger = n - x, smaller = x - 1, other = n - mx - mn - 1;
+
+    ll ans = 0;
+    ll ans1 = (fact[bigger] * powmod(fact[bigger- mx], MOD - 2)) % MOD;
+    ll ans2 = (fact[smaller] * powmod(fact[smaller - mn], MOD - 2)) % MOD;
+    ans = ((ans1 * ans2) % MOD * fact[other]) % MOD;
+
+    if(bigger - mx < 0 || smaller - mn < 0) {
+        ans = 0;
+    }
+
+    cout<<ans<<endl;
+
     return;
 }
 
@@ -71,7 +106,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

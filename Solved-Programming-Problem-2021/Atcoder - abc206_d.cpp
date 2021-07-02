@@ -36,33 +36,51 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int vis[MAX], cnt;
+int arr[MAX];
+vector<int> graph[MAX];
+
+void dfs(int u)
+{
+    vis[u] = 1;
+    cnt++;
+    for(int i = 0; i < graph[u].size(); i++) {
+        int v = graph[u][i];
+        if(vis[v])
+            continue;
+        dfs(v);
+    }
+}
+
 void solve()
 {
     int n;
-    string str;
 
-    cin>>n>>str;
+    cin>>n;
 
-    int cnt = 0;
     REP(i, n) {
-        if(str[i] == '0')
-            cnt++;
+        cin>>arr[i];
     }
 
-    if(cnt & 1) {
-        if(cnt == 1)
-            cout<<"BOB"<<endl;
-        else
-            cout<<"ALICE"<<endl;
-    }
-    else {
-        if(cnt == 0) {
-            cout<<"DRAW"<<endl;
-        }
-        else {
-            cout<<"BOB"<<endl;
+    REP(i, n / 2) {
+        if(arr[i] != arr[n-i-1]) {
+            graph[arr[i]].pb(arr[n-i-1]);
+            graph[arr[n-i-1]].pb(arr[i]);
         }
     }
+
+    int ans = 0;
+
+    FOR(i, 1, 200000) {
+        if(!vis[i]) {
+            cnt = 0;
+            dfs(i);
+            ans += (cnt - 1);
+        }
+    }
+
+    cout<<ans<<endl;
+
     return;
 }
 
@@ -71,7 +89,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();
