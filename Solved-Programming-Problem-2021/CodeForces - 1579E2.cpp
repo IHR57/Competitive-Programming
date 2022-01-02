@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -36,62 +36,27 @@ typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_up
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
-
 void solve()
 {
     int n;
+
     cin>>n;
 
-    vi arr(n + 1), pos(n + 1);
+    int val;
+    ordered_set os;
 
-    FOR(i, 1, n) {
-        cin>>arr[i];
-        pos[arr[i]] = i;
+    ll ans = 0;
+
+    REP(i, n) {
+        cin>>val;
+        int l = os.order_of_key({val, 0});
+        int r = i - os.order_of_key({val, n});
+        ans += 1LL * min(l, r);
+        os.insert({val, i});
     }
 
-    int start = -1;
-    set<int> s;
+    cout<<ans<<endl;
 
-    int ans = 0;
-
-    FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
-        }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
-            }
-        }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
-            else {
-                s.insert(arr[i]);
-                start = i;
-            }
-        }
-        s.insert(arr[i]);
-    }
-
-    cout<<start<<" "<<ans<<endl;
 
     return;
 }

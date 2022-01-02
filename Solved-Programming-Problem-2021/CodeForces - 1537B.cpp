@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -15,7 +15,7 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
@@ -30,68 +30,37 @@ typedef pair<int, int> ii;
 typedef pair<ii, int> pii;
 typedef pair<ll, ll> LL;
 typedef vector<ii> vii;
-typedef priority_queue<ll,vector<ll>,greater<ll> > PQ;
-typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef priority_queue<int,vector<int>,greater<int> > PQ;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
-
 void solve()
 {
-    int n;
-    cin>>n;
+    ll n, m, x, y;
 
-    vi arr(n + 1), pos(n + 1);
+    cin>>n>>m>>x>>y;
 
-    FOR(i, 1, n) {
-        cin>>arr[i];
-        pos[arr[i]] = i;
+    vector<pair<ll, ll> > vp;
+    vp.pb(mk(1, 1));
+    vp.pb(mk(1, m));
+    vp.pb(mk(n, 1));
+    vp.pb(mk(n, m));
+
+    ll maxD = -1, p1, q1, p2, q2;
+    REP(i, vp.size()) {
+        REP(j, vp.size()) {
+            ll temp = abs(x - vp[i].ff) + abs(y - vp[i].ss) + abs(vp[i].ff - vp[j].ff) + abs(vp[i].ss - vp[j].ss) + abs(x - vp[j].ff) + abs(y - vp[j].ss);
+            if(temp > maxD) {
+                maxD = temp;
+                p1 = vp[i].ff, q1 = vp[i].ss;
+                p2 = vp[j].ff, q2 = vp[j].ss;
+            }
+        }
     }
 
-    int start = -1;
-    set<int> s;
-
-    int ans = 0;
-
-    FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
-        }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
-            }
-        }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
-            else {
-                s.insert(arr[i]);
-                start = i;
-            }
-        }
-        s.insert(arr[i]);
-    }
-
-    cout<<start<<" "<<ans<<endl;
+    cout<<p1<<" "<<q1<<" "<<p2<<" "<<q2<<endl;
 
     return;
 }

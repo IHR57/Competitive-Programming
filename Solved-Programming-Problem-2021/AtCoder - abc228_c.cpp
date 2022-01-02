@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -17,10 +17,11 @@
 #define REP(i,b)        for(int i=0;i<b;i++)
 #define all(v)          v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
+#define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 1000000007
-#define MAX 200005
+#define MOD 998244353
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -30,68 +31,57 @@ typedef pair<int, int> ii;
 typedef pair<ii, int> pii;
 typedef pair<ll, ll> LL;
 typedef vector<ii> vii;
-typedef priority_queue<ll,vector<ll>,greater<ll> > PQ;
-typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef priority_queue<int,vector<int>,greater<int> > PQ;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
-
 void solve()
 {
-    int n;
-    cin>>n;
+    int n, k;
 
-    vi arr(n + 1), pos(n + 1);
+    cin>>n>>k;
 
-    FOR(i, 1, n) {
-        cin>>arr[i];
-        pos[arr[i]] = i;
+    vi scores(n, 0);
+    vector<bool> ans(n, false);
+    vector<pair<int, int> > vp;
+
+    REP(i, n) {
+        int val;
+        REP(j, 3) {
+            cin>>val;
+            scores[i] += val;
+        }
+        vp.pb({scores[i], i});
     }
 
-    int start = -1;
-    set<int> s;
+    RSORT(vp);
+    k--;
 
-    int ans = 0;
-
-    FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
-        }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
+    REP(i, n) {
+        int x = vp[i].ff;
+        x += 300;
+        int low = 0, high = i - 1, mid, tans = i;
+        while(low <= high) {
+            mid = (low + high + 1) >> 1;
+            if(vp[mid].first <= x) {
+                tans = mid;
+                high = mid - 1;
             }
-        }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
             else {
-                s.insert(arr[i]);
-                start = i;
+                low = mid + 1;
             }
         }
-        s.insert(arr[i]);
+        if(tans <= k) {
+            ans[vp[i].ss] = true;
+        }
     }
 
-    cout<<start<<" "<<ans<<endl;
+    REP(i, n) {
+        cout<<(ans[i] ? "Yes" : "No")<<endl;
+    }
+
 
     return;
 }
@@ -101,7 +91,7 @@ int main()
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     int test = 1;
 
-    cin>>test;
+    //cin>>test;
 
     while(test--) {
         solve();

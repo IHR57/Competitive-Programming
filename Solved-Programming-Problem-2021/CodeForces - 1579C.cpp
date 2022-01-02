@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -31,67 +31,59 @@ typedef pair<ii, int> pii;
 typedef pair<ll, ll> LL;
 typedef vector<ii> vii;
 typedef priority_queue<ll,vector<ll>,greater<ll> > PQ;
-typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
+string grid[11];
+int vis[11][20];
 
 void solve()
 {
-    int n;
-    cin>>n;
+    int n, m, k;
 
-    vi arr(n + 1), pos(n + 1);
+    cin>>n>>m>>k;
 
-    FOR(i, 1, n) {
-        cin>>arr[i];
-        pos[arr[i]] = i;
+    mem(vis, 0);
+
+    REP(i, n) {
+        cin>>grid[i];
     }
 
-    int start = -1;
-    set<int> s;
-
-    int ans = 0;
-
-    FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
-        }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
+    ROF(i, n - 1, 0) {
+        ROF(j, m - 1, 0) {
+            if(grid[i][j] == '*') {
+                int cnt = 0;
+                for(int x = 1; x <= n; x++) {
+                    if((i - x) < 0 || (j - x) < 0 || grid[i-x][j-x] != '*') {
+                        break;
+                    }
+                    if((i - x) < 0 || (j + x) >= m || grid[i-x][j+x] != '*') {
+                        break;
+                    }
+                    cnt++;
+                }
+                if(cnt >= k) {
+                    for(int x = 0; x <= cnt; x++) {
+                        vis[i-x][j-x] = vis[i-x][j+x] = 1;
+                    }
+                }
             }
         }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
-            else {
-                s.insert(arr[i]);
-                start = i;
-            }
-        }
-        s.insert(arr[i]);
     }
 
-    cout<<start<<" "<<ans<<endl;
+    REP(i, n) {
+        REP(j, m) {
+            if((grid[i][j] == '*' && !vis[i][j]) || (grid[i][j] == '.' && vis[i][j])) {
+                cout<<"NO"<<endl;
+                return;
+            }
+        }
+    }
+
+    cout<<"YES"<<endl;
+
 
     return;
 }

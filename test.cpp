@@ -1,96 +1,82 @@
-#include<iostream>
-#include <unordered_map>
-#include <map>
-#include <set>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
-unordered_map<int, set<int> > mp;
-set<int> s;
-unordered_map<int, int> counter;
 
-struct hash_pair {
-    template <class T1, class T2>
-    size_t operator()(const pair<T1, T2>& p) const
-    {
-        auto hash1 = hash<T1>{}(p.first);
-        auto hash2 = hash<T2>{}(p.second);
-        return hash1 ^ hash2;
+bool isPossible(int applicants[], int totalDivisions) {
+    if(totalDivisions == 1 && applicants[0] > 1) {
+        return false;       // not possible two id's must be adjacent
     }
-};
 
-unordered_map<pair<int, int>, int, hash_pair> cnt;
+    int maxApplicantDivisionId, maxApplicants = 0;
+    for(int i = 0; i < totalDivisions; i++) {       // finding the division id which has most applicants
+        if(applicants[i] > maxApplicants) {
+            maxApplicants = applicants[i];
+            maxApplicantDivisionId = i;
+        }
+    }
 
-void init()
-{
-    mp.clear();
-    cnt.clear();
-    s.clear();
-    counter.clear();
-}
-void Add(int P, int N)
-{
-    mp[N].insert(P);
-    pair<int, int> p(N, P);
-    cnt[p]++;
-    s.insert(N);
-    counter[N]++;
-}
+    int sum = 0;
+    for(int i = 0; i < totalDivisions; i++) {       // sum of other division's applicants
+        if(i != maxApplicantDivisionId)
+            sum += applicants[i];
+    }
 
-int Use(int P1, int P2)
-{
-    int ans = -1, idx;
+    // not possible according to pigeon-hole principle.
+    // at lease two id's must be adjacent in maxApplicantDivisionId
+    if(maxApplicants > sum) {
+        return false;
+    }
 
-    for(set<int> :: reverse_iterator it = s.rbegin(); it != s.rend(); it++) {
-        set<int> :: iterator temp = mp[*it].lower_bound(P1);
-        if(temp != mp[*it].end()) {
-            if(*temp <= P2) {
-                ans = *it;
-                idx = *temp;
-                break;
+    /*
+    otherwise we can distribute id's following way
+    1. select the topmost from queue
+    2. match the division id with previously taken division id
+    3. if match found (i.e previous and current are same) then pop the top element and take the second element, otherwise assign id for current division
+    4. assign id and push again if applicants count is not zero
+    5. at the end no adjacent id belongs to same division
+    */
+
+    priority_queue<pair<int, int> > applicantsQueue;
+    for(int i = 0; i < totalDivisions; i++) {
+        applicantsQueue.push(make_pair(applicants[i], i));          // key-value pair: total_applicants and division_id
+    }
+
+    int prevDivisionId = -1;        // will track last taken division-id
+    int currId = 1;
+    while(!applicantsQueue.empty()) {
+        pair<int, int> currDivision = applicantsQueue.top();
+        applicantsQueue.pop();
+        if(currDivision.second == prevDivisionId) {
+            pair<int, int> nextDivision = applicantsQueue.top();
+            applicantsQueue.pop();
+            nextDivision.first--;
+            prevDivisionId = nextDivision.second;
+            if(nextDivision.first > 0)
+                applicantsQueue.push(nextDivision);
+            applicantsQueue.push(currDivision);
+            cout<<"Division: "<<nextDivision.second<<" ID: "<<(currId++)<<endl;       // print id that belongs to a division
+
+        }
+        else {
+            currDivision.first--;
+            prevDivisionId = currDivision.second;
+            if(currDivision.first > 0) {
+                applicantsQueue.push(currDivision);
             }
+            cout<<"Division: "<<currDivision.second<<" ID: "<<(currId++)<<endl;
         }
     }
 
-    if(ans != -1) {
-        if(--cnt[make_pair(ans, idx)] == 0) {
-            mp[ans].erase(idx);
-        }
-        if(mp[ans].size() == 0) {
-            if(--counter[ans] == 0) {
-                s.erase(ans);
-            }
-        }
-    }
 
-    return ans;
+    return true;
 }
 
-int main()
-{
-    init();
-    int tt;
-    cin>>tt;
-    while(tt--)
-    {
-        int N,which_function_need_to_call,P1,P2;
-        cin>>which_function_need_to_call;
-        if(which_function_need_to_call==1)
-        {
-            cin>>P1>>N;
-            Add(P1,N);
-        }
-        else if(which_function_need_to_call==2)
-        {
-            cin>>P1>>P2;
-            cout<<Use(P1,P2)<<endl;
-        }
-        else
-        {
-            cout<<"Invalid Input"<<endl;
-        }
-    }
+int main() {
+
+
+    int arr[3] = {1, 1, 2};
+
+    isPossible(arr, 3);
+
     return 0;
 }
-

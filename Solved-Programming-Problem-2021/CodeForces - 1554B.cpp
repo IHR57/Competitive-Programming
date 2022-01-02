@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -15,7 +15,7 @@
 #define FOR(i,a,b)      for(int i=a;i<=b;i++)
 #define ROF(i,a,b)      for(int i=a;i>=b;i--)
 #define REP(i,b)        for(int i=0;i<b;i++)
-#define all(v)          v.begin(),v.end()
+#define all(v) v.begin(),v.end()
 #define SORT(v)         sort(v.begin(),v.end())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
@@ -30,68 +30,34 @@ typedef pair<int, int> ii;
 typedef pair<ii, int> pii;
 typedef pair<ll, ll> LL;
 typedef vector<ii> vii;
-typedef priority_queue<ll,vector<ll>,greater<ll> > PQ;
-typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef priority_queue<int,vector<int>,greater<int> > PQ;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
+int k;
 
 void solve()
 {
     int n;
-    cin>>n;
 
-    vi arr(n + 1), pos(n + 1);
+    cin>>n>>k;
 
-    FOR(i, 1, n) {
+    vi arr(n + 1);
+
+    FOR(i, 1, n)
         cin>>arr[i];
-        pos[arr[i]] = i;
-    }
 
-    int start = -1;
-    set<int> s;
-
-    int ans = 0;
+    ll ans = -1e15;
 
     FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
+        FOR(j, max(i + 1, max(1, n - 2 * k)), n) {
+            ans = max(ans, 1LL * i * j - (1LL * k * (arr[i] | arr[j])));
         }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
-            }
-        }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
-            else {
-                s.insert(arr[i]);
-                start = i;
-            }
-        }
-        s.insert(arr[i]);
     }
 
-    cout<<start<<" "<<ans<<endl;
+    cout<<ans<<endl;
 
     return;
 }

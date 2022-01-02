@@ -1,4 +1,4 @@
-//بسم الله الرحمن الرحيم
+//BISMILLAHIR RAHMANIR RAHIM
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -31,67 +31,53 @@ typedef pair<ii, int> pii;
 typedef pair<ll, ll> LL;
 typedef vector<ii> vii;
 typedef priority_queue<ll,vector<ll>,greater<ll> > PQ;
-typedef tree<ii, null_type, less<ii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-ll p[10];
-int arr[10];
-int n, k;
-
 void solve()
 {
     int n;
+
     cin>>n;
 
-    vi arr(n + 1), pos(n + 1);
+    vi arr(n);
 
-    FOR(i, 1, n) {
+    priority_queue<ii> pq;
+
+    REP(i, n) {
         cin>>arr[i];
-        pos[arr[i]] = i;
+        pq.push({arr[i], i});
     }
 
-    int start = -1;
-    set<int> s;
+    vector<ii> vp;
 
-    int ans = 0;
-
-    FOR(i, 1, n) {
-        int tx = -1;
-        if(start == i && arr[i] == i) {
-            start = i + 1;
-            continue;
-        }
-        if(s.find(i) != s.end()) {
-            ans = max(ans, i - start);
-            tx = pos[i] + 1;
-        }
-        else if(start != -1) {
-            if(arr[i] >= start && arr[i] <= i) {
-                ans = max(ans, i - start);
-                tx = max(tx, pos[arr[i]] + 1);
-            }
-        }
-        if(tx != -1) {
-            for(int i = start; i < tx; i++) {
-                s.erase(arr[i]);
-            }
-            start = tx;
-
-        }
-        if(start == -1) {
-            if(arr[i] == i)
-                continue;
-            else {
-                s.insert(arr[i]);
-                start = i;
-            }
-        }
-        s.insert(arr[i]);
+    while(true) {
+        if(pq.empty())
+            break;
+        ii u = pq.top();
+        pq.pop();
+        if(pq.empty())
+            break;
+        ii v = pq.top();
+        pq.pop();
+        if(u.ff > 0 && v.ff > 0)
+            vp.pb({u.ss, v.ss});
+        u.ff -= 1;
+        v.ff -= 1;
+        if(u.ff > 0)
+            pq.push(u);
+        if(v.ff > 0)
+            pq.push(v);
     }
 
-    cout<<start<<" "<<ans<<endl;
+    cout<<vp.size()<<endl;
+
+    REP(i, vp.size()) {
+        cout<<vp[i].ff + 1<<" "<<vp[i].ss + 1<<endl;
+    }
+
 
     return;
 }
