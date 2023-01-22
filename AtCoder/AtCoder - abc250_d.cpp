@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,50 +37,73 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+vector<unsigned long long> primes;
+vector<ll> cubes;
+bool mark[1000000];
 
-void solve() {
-    int n, val, k;
+void genPrime()
+{
+    memset(mark, false, sizeof(mark));
+    mark[1] = true;
 
-    unordered_map<int, int> mp;
-    vector<int> arr;
+    for(int i = 4; i < 1000000; i += 2) {
+        mark[i] = true;
+    }
+    primes.pb(2);
+
+    for(int i = 3; i < 1000000; i += 2) {
+        if(!mark[i]) {
+            primes.pb(i);
+            if(1LL * i * i < 1000000) {
+                for(int j = i * i; j < 1000000; j += i * 2) {
+                    mark[j] = i;
+                }
+            }
+        }
+    }
+}
+
+void solve()
+{
+    genPrime();
+    ll n;
 
     cin>>n;
-    vector<int> v[n+1];
 
-    REP(i, n) {
-        cin>>k;
-        REP(j, k) {
-            cin>>val;
-            v[i].pb(val);
-            arr.pb(val);
-        }
-    }
-
-    SORT(arr);
-
-    REP(i, arr.size())  mp[arr[i]] = i;
-
-    int ans = 0;
-    REP(i, n) {
-        int prev = -1;
-        int cnt = 0;
-        REP(j, v[i].size()) {
-            if(prev != -1 && mp[v[i][j]] != prev + 1) {
-                cnt++;
+    ll result = 0;
+    for(int i = 0; i < primes.size(); i++) {
+        int low = i, high = primes.size() - 1, mid, ans = -1;
+        while(low <= high) {
+            mid = (low + high + 1) >> 1;
+            unsigned long long cube = 1LL * primes[mid] * primes[mid] * primes[mid];
+            unsigned long long tmp = cube * primes[i];
+            if (cube != 0 && tmp / cube != primes[i]) {     // overflow
+                high = mid - 1;
+                continue;
             }
-            prev = mp[v[i][j]];
+            if(cube < n && (1LL * primes[i] * cube) <= n) {
+                ans = mid - i;
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
         }
-        ans += cnt;
+        if(ans != -1) {
+            result += (ll) ans;
+        }
     }
 
-    cout<<ans<<" "<<ans + n - 1<<endl;
+    cout<<result<<endl;
+
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     //cin>>test;
 
     while(test--) {

@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,50 +37,49 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+int n, x, y;
+ll dp[20][2];
 
-void solve() {
-    int n, val, k;
-
-    unordered_map<int, int> mp;
-    vector<int> arr;
-
-    cin>>n;
-    vector<int> v[n+1];
-
-    REP(i, n) {
-        cin>>k;
-        REP(j, k) {
-            cin>>val;
-            v[i].pb(val);
-            arr.pb(val);
-        }
+ll recur(int level, int isRed) {
+    if(level == 1) {
+        if(isRed)
+            return 0;
+        return 1;
+    }
+    if(level == 2 && !isRed)
+        return y;
+    if(dp[level][isRed] != -1)
+        return dp[level][isRed];
+    ll ret = 0;
+    if(isRed) {
+        ret = recur(level - 1, isRed);
+        for(int i = 0; i < x; i++)
+            ret += recur(level, !isRed);
+    }
+    else {
+        ret = recur(level - 1, 1);
+        for(int i = 0; i < y; i++)
+            ret += recur(level - 1, isRed);
     }
 
-    SORT(arr);
+    return dp[level][isRed] = ret;
+}
+void solve()
+{
 
-    REP(i, arr.size())  mp[arr[i]] = i;
+    cin>>n>>x>>y;
 
-    int ans = 0;
-    REP(i, n) {
-        int prev = -1;
-        int cnt = 0;
-        REP(j, v[i].size()) {
-            if(prev != -1 && mp[v[i][j]] != prev + 1) {
-                cnt++;
-            }
-            prev = mp[v[i][j]];
-        }
-        ans += cnt;
-    }
+    mem(dp, -1);
 
-    cout<<ans<<" "<<ans + n - 1<<endl;
+    cout<<recur(n, 1)<<endl;
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     //cin>>test;
 
     while(test--) {

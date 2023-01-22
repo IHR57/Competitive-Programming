@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,50 +37,53 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+char grid[200][200];
 
-void solve() {
-    int n, val, k;
+void solve()
+{
+    int n, a, b;
+    int tx = 0, ty = 0;
 
-    unordered_map<int, int> mp;
-    vector<int> arr;
-
-    cin>>n;
-    vector<int> v[n+1];
+    cin>>n>>a>>b;
 
     REP(i, n) {
-        cin>>k;
-        REP(j, k) {
-            cin>>val;
-            v[i].pb(val);
-            arr.pb(val);
-        }
-    }
-
-    SORT(arr);
-
-    REP(i, arr.size())  mp[arr[i]] = i;
-
-    int ans = 0;
-    REP(i, n) {
-        int prev = -1;
-        int cnt = 0;
-        REP(j, v[i].size()) {
-            if(prev != -1 && mp[v[i][j]] != prev + 1) {
-                cnt++;
+        ty = 0;
+        REP(j, n) {
+            REP(k, a) {
+                REP(l, b) {
+                    if(!(i & 1) && !(j & 1)) {
+                        grid[tx+k][ty+l] = '.';
+                    }
+                    else if(!(i & 1) && (j & 1)) {
+                        grid[tx+k][ty+l] = '#';
+                    }
+                    else if((i & 1) && !(j & 1)) {
+                        grid[tx+k][ty+l] = '#';
+                    }
+                    else if((i & 1) && (j & 1)) {
+                        grid[tx+k][ty+l] = '.';
+                    }
+                }
             }
-            prev = mp[v[i][j]];
+            ty += b;
         }
-        ans += cnt;
+        tx += a;
     }
 
-    cout<<ans<<" "<<ans + n - 1<<endl;
+    REP(i, n * a) {
+        REP(j, n * b) {
+            cout<<grid[i][j];
+        }
+        cout<<endl;
+    }
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     //cin>>test;
 
     while(test--) {

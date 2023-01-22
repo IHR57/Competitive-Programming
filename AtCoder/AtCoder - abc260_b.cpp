@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,50 +37,80 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+bool compare(pair<int, int> A, pair<int, int> B) {
+    if(A.first == B.first)
+        return A.second < B.second;
+    return A.first > B.first;
+}
+void solve()
+{
+    int n, x, y, z;
 
-void solve() {
-    int n, val, k;
+    cin>>n>>x>>y>>z;
+    vector<pair<int, int> > math, english;
+    vi msc(n + 1), esc(n + 1);
 
-    unordered_map<int, int> mp;
-    vector<int> arr;
-
-    cin>>n;
-    vector<int> v[n+1];
+    int val;
+    REP(i, n) {
+        cin>>val;
+        math.pb(mk(val, i));
+        msc[i] = val;
+    }
 
     REP(i, n) {
-        cin>>k;
-        REP(j, k) {
-            cin>>val;
-            v[i].pb(val);
-            arr.pb(val);
+        cin>>val;
+        english.pb(mk(val, i));
+        esc[i] = val;
+    }
+
+    sort(math.begin(), math.end(), compare);
+    sort(english.begin(), english.end(), compare);
+
+    vector<int> ans;
+    vector<int> mark(n + 1, 0);
+    REP(i, x) {
+        mark[math[i].ss] = 1;
+        ans.pb(math[i].ss);
+    }
+    int cnt = 0;
+    REP(i, n) {
+        if(cnt == y)
+            break;
+        if(!mark[english[i].ss]) {
+            mark[english[i].ss] = 1;
+            ans.pb(english[i].ss);
+            cnt++;
         }
     }
 
-    SORT(arr);
-
-    REP(i, arr.size())  mp[arr[i]] = i;
-
-    int ans = 0;
-    REP(i, n) {
-        int prev = -1;
-        int cnt = 0;
-        REP(j, v[i].size()) {
-            if(prev != -1 && mp[v[i][j]] != prev + 1) {
-                cnt++;
-            }
-            prev = mp[v[i][j]];
+    vector<pair<int, int> > vp;
+    cnt = 0;
+    for(int i = 0; i < n; i++) {
+        if(!mark[i]) {
+            mark[i] = 1;
+            vp.pb(mk(msc[i] + esc[i], i));
         }
-        ans += cnt;
+    }
+    sort(vp.begin(), vp.end(), compare);
+
+    for(int i = 0; i < z; i++) {
+        ans.pb(vp[i].ss);
     }
 
-    cout<<ans<<" "<<ans + n - 1<<endl;
+    SORT(ans);
+    REP(i, x + y + z) {
+        cout<<ans[i] + 1<<" ";
+    }
+    cout<<endl;
+
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     //cin>>test;
 
     while(test--) {

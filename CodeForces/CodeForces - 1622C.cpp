@@ -20,7 +20,8 @@
 #define RSORT(v)        sort(v.rbegin(),v.rend())
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
-#define MOD 998244353
+#define EPS 1e-8
+#define MOD 1000000007
 #define MAX 1000005
 using namespace std;
 using namespace __gnu_pbds;
@@ -29,7 +30,7 @@ typedef long long ll;
 typedef vector<int> vi;
 typedef pair<int, int> ii;
 typedef pair<ii, int> pii;
-typedef pair<ll, ll> LL;
+typedef pair<ll, ll> pll;
 typedef vector<ii> vii;
 typedef priority_queue<int,vector<int>,greater<int> > PQ;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
@@ -37,51 +38,44 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
+void solve()
+{
+    int n;
+    ll k;
+    cin>>n>>k;
 
-void solve() {
-    int n, val, k;
+    vector<ll> arr(n);
+    vector<ll> cs(n + 1, 0);
 
-    unordered_map<int, int> mp;
-    vector<int> arr;
-
-    cin>>n;
-    vector<int> v[n+1];
-
-    REP(i, n) {
-        cin>>k;
-        REP(j, k) {
-            cin>>val;
-            v[i].pb(val);
-            arr.pb(val);
-        }
-    }
-
+    REP(i, n)   cin>>arr[i];
     SORT(arr);
 
-    REP(i, arr.size())  mp[arr[i]] = i;
-
-    int ans = 0;
     REP(i, n) {
-        int prev = -1;
-        int cnt = 0;
-        REP(j, v[i].size()) {
-            if(prev != -1 && mp[v[i][j]] != prev + 1) {
-                cnt++;
-            }
-            prev = mp[v[i][j]];
-        }
-        ans += cnt;
+        cs[i+1] = cs[i] + (ll) arr[i];
     }
 
-    cout<<ans<<" "<<ans + n - 1<<endl;
+    ll ans = 1e18;
+    REP(i, n) {
+        ll tsum = cs[n - i] + arr[0] * i;
+        ll req = i;
+        if(tsum > k) {
+            ll diff = tsum - k;
+            req += (diff + i) / (i + 1);
+        }
+        ans = min(ans, req);
+    }
+
+    cout<<ans<<endl;
+
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
-    //cin>>test;
+
+    cin>>test;
 
     while(test--) {
         solve();
@@ -89,4 +83,3 @@ int main()
 
     return 0;
 }
-
