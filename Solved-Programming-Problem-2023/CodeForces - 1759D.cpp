@@ -39,26 +39,53 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
+    ll a, b;
 
-    cin>>n;
+    cin>>a>>b;
 
-    vector<bool> vis(n + 1, false);
-    vi ans(n);
+    ll ta = a;
+    int cnt2 = 0, cnt5 = 0;
 
-    int sq = sqrt(2 * n);
-    ROF(i, n - 1, 0) {
-        int need = (sq * sq) - i;
-        while(need >= n || vis[need]) {
-            sq--;
-            need = (sq * sq) - i;
-        }
-        ans[i] = need;
-        vis[need] = 1;
+    while(ta % 2 == 0) {
+        cnt2++;
+        ta /= 2;
     }
 
-    REP(i, n)   cout<<ans[i]<<" ";
-    cout<<endl;
+    while(ta % 5 == 0) {
+        cnt5++;
+        ta /= 5;
+    }
+
+    ll curr = 1;
+    while(true) {
+        bool flag = false;
+        if(cnt2 < cnt5) {
+            if(curr * 2 <= b) {
+                curr *= 2;
+                cnt2++;
+                flag = true;
+            }
+        }
+        else if(cnt2 > cnt5) {
+            if(curr * 5 <= b) {
+                curr *= 5;
+                cnt5++;
+                flag = true;
+            }
+        }
+        else {
+            if(curr * 10 <= b) {
+                curr *= 10;
+                flag = true;
+            }
+        }
+        if(!flag)   break;
+    }
+
+    b = b / curr * curr;
+    cout<<a * b<<endl;
+
+    return;
 }
 
 int main()

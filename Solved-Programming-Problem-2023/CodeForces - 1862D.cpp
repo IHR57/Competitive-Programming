@@ -38,28 +38,25 @@ int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve() {
-    int n, ans = 0;
+    ll n;
 
     cin>>n;
 
-    for(int i = 0; i <= n; i++) {
-        int sum = 0, mx = 0;
-        for (int j = 1; j <= i; j++) {
-            sum += j * j;
-            mx = max(mx, j * j);
+    ll low = 1, high = sqrt(2 * n) + 1, mid, ans = -1;
+    while(low <= high) {
+        mid = (low + high + 1) >> 1LL;
+        if(((mid * (mid - 1)) / 2) > n) {
+            high = mid - 1;
         }
-
-        int curr = n;
-        for (int j = i + 1; j <= n; j++) {
-            sum += j * curr;
-            mx = max(mx, j * curr);
-            curr--;
+        else {
+            ans = mid;
+            low = mid + 1;
         }
-
-        ans = max(ans , sum - mx);
     }
 
-    cout<<ans<<endl;
+    ll x = ans + n - (ans * (ans - 1)) / 2;
+
+    cout<<x<<endl;
 
     return;
 }

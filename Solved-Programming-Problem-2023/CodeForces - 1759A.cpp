@@ -39,37 +39,24 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n, m;
+    string sbstr, str = "", yes = "Yes";
 
-    cin>>n>>m;
+    cin>>sbstr;
 
-    vi arr(m);
-    REP(i, m) {
-        cin>>arr[i];
-        arr[i]--;
+    for(int i = 0; i < 50; i++) {
+        str += yes;
     }
 
-    SORT(arr);
-
-    vi seg;
-    REP(i, m) {
-        int diff = arr[(i + 1) % m] - arr[i];
-        if(diff <= 0)
-            diff += n;
-        seg.pb(diff - 1);
-    }
-
-    RSORT(seg);
-
-    int ans = 0;
-    REP(i, m) {
-        int x = seg[i] - 4 * i;
-        if(x >= 1) {
-            ans += max(1, x - 1);
+    for(int i = 0; i < 3; i++) {
+        if(str.substr(i, sbstr.size()) == sbstr) {
+            cout<<"YES"<<endl;
+            return;
         }
     }
 
-    cout<<n - ans<<endl;
+    cout<<"NO"<<endl;
+
+    return;
 }
 
 int main()

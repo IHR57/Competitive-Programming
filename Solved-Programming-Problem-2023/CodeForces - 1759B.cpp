@@ -39,27 +39,44 @@ bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
 void solve()
 {
-    int n;
+    int m, s;
+    cin>>m>>s;
 
-    cin>>n;
+    vector<bool> vis(1005, false);
+    int maxE = 0;
 
-    vi arr(n);
-
-    REP(i, n)   cin>>arr[i];
-    SORT(arr);
-
-    double a = arr[n-1];
-    double b, sum = 0;
-
-    REP(i, n -  1) {
-        sum += arr[i];
+    REP(i, m) {
+        int temp;
+        cin>>temp;
+        vis[temp] = 1;
+        maxE = max(maxE, temp);
     }
-    b = sum / (n - 1);
 
-    double ans = a + b;
+    int sum = 0;
 
-    cout<<setiosflags(ios::fixed)<<setprecision(10);
-    cout<<ans<<endl;
+    for(int i = 1; ; i++) {
+        if(!vis[i]) {
+            maxE = max(maxE, i);
+            sum += i;
+            vis[i] = 1;
+            if(sum > s) {
+                cout<<"NO"<<endl;
+                return;
+            }
+            if(sum == s) {
+                break;
+            }
+        }
+    }
+
+    FOR(i, 1, maxE) {
+        if(!vis[i]) {
+            cout<<"NO"<<endl;
+            return;
+        }
+    }
+
+    cout<<"YES"<<endl;
 
     return;
 }

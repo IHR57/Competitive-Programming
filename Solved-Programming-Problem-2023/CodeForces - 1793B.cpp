@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,29 +37,26 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-void solve() {
-    int n, ans = 0;
+void solve()
+{
+    ll a, b;
 
-    cin>>n;
+    cin>>a>>b;
 
-    for(int i = 0; i <= n; i++) {
-        int sum = 0, mx = 0;
-        for (int j = 1; j <= i; j++) {
-            sum += j * j;
-            mx = max(mx, j * j);
-        }
+    cout<<abs(a - b) * 2<<endl;
 
-        int curr = n;
-        for (int j = i + 1; j <= n; j++) {
-            sum += j * curr;
-            mx = max(mx, j * curr);
-            curr--;
-        }
+    vector<ll> arr(abs(a - b) * 2);
+    int idx = 0;
 
-        ans = max(ans , sum - mx);
+    for(ll i = b; i <= a; i++) {
+        arr[idx++] = i;
+    }
+    for(ll i = a - 1; i > b; i--) {
+        arr[idx++] = i;
     }
 
-    cout<<ans<<endl;
+    REP(i, 2 * (a - b))     cout<<arr[i]<<" ";
+    cout<<endl;
 
     return;
 }
@@ -67,9 +64,10 @@ void solve() {
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     cin>>test;
+
     while(test--) {
         solve();
     }

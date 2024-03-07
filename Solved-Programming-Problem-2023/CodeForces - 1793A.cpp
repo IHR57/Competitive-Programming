@@ -21,7 +21,7 @@
 #define REV(v)          reverse(v.begin(),v.end())
 #define INF 2147483647
 #define MOD 998244353
-#define MAX 1000005
+#define MAX 300005
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,29 +37,24 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int setBit(int mask, int pos){return mask = mask | (1<<pos);}
 bool checkBit(int mask, int pos){return (bool)(mask & (1<<pos));}
 
-void solve() {
-    int n, ans = 0;
+void solve()
+{
+    ll n, m, a, b;
 
-    cin>>n;
+    cin>>a>>b;
+    cin>>n>>m;
 
-    for(int i = 0; i <= n; i++) {
-        int sum = 0, mx = 0;
-        for (int j = 1; j <= i; j++) {
-            sum += j * j;
-            mx = max(mx, j * j);
-        }
+    ll ans;
 
-        int curr = n;
-        for (int j = i + 1; j <= n; j++) {
-            sum += j * curr;
-            mx = max(mx, j * curr);
-            curr--;
-        }
-
-        ans = max(ans , sum - mx);
+    if(a <= b) {
+        ans = (1LL * n * a) - (1LL * (n / (m + 1)) * a);
+        cout<<ans<<endl;
     }
-
-    cout<<ans<<endl;
+    else {
+        ans = n * b;
+        ans = min(ans, ((n / (m + 1)) * (m + 1) - (n / (m + 1))) * a + (n % (m + 1)) * b);
+        cout<<ans<<endl;
+    }
 
     return;
 }
@@ -67,9 +62,10 @@ void solve() {
 int main()
 {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int test = 1;
+
     cin>>test;
+
     while(test--) {
         solve();
     }
